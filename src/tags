@@ -1,0 +1,76 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Buffer	Buffer.cpp	/^Buffer::Buffer() {$/;"	f	class:Buffer	signature:()
+Buffer::Buffer	Buffer.cpp	/^Buffer::Buffer() {$/;"	f	class:Buffer	signature:()
+Buffer::TargetNames	Buffer.cpp	/^LookupNames Buffer::TargetNames = {$/;"	m	class:Buffer	file:
+Buffer::UsageNames	Buffer.cpp	/^LookupNames Buffer::UsageNames = {$/;"	m	class:Buffer	file:
+Buffer::~Buffer	Buffer.cpp	/^Buffer::~Buffer() {$/;"	f	class:Buffer	signature:()
+Framebuffer	Framebuffer.cpp	/^Framebuffer::Framebuffer() {$/;"	f	class:Framebuffer	signature:()
+Framebuffer::Framebuffer	Framebuffer.cpp	/^Framebuffer::Framebuffer() {$/;"	f	class:Framebuffer	signature:()
+Framebuffer::StatusNames	Framebuffer.cpp	/^LookupNames Framebuffer::StatusNames = {$/;"	m	class:Framebuffer	file:
+Framebuffer::TargetNames	Framebuffer.cpp	/^LookupNames Framebuffer::TargetNames = {$/;"	m	class:Framebuffer	file:
+Framebuffer::checkStatus	Framebuffer.cpp	/^GLenum Framebuffer::checkStatus() const {$/;"	f	class:Framebuffer	signature:() const
+Framebuffer::getID	Framebuffer.cpp	/^GLuint Framebuffer::getID() const {$/;"	f	class:Framebuffer	signature:() const
+Framebuffer::getTarget	Framebuffer.cpp	/^Framebuffer::Target Framebuffer::getTarget() const {$/;"	f	class:Framebuffer	signature:() const
+Framebuffer::renderbuffer	Framebuffer.cpp	/^void Framebuffer::renderbuffer(const RenderbufferPtr& rb, const AttachmentType attachment) {$/;"	f	class:Framebuffer	signature:(const RenderbufferPtr& rb, const AttachmentType attachment)
+Framebuffer::renderbuffer	Framebuffer.cpp	/^void Framebuffer::renderbuffer(const RenderbufferPtr& rb, const Target target, const AttachmentType attachment) {$/;"	f	class:Framebuffer	signature:(const RenderbufferPtr& rb, const Target target, const AttachmentType attachment)
+Framebuffer::setID_	Framebuffer.cpp	/^void Framebuffer::setID_(const GLuint id) {$/;"	f	class:Framebuffer	signature:(const GLuint id)
+Framebuffer::setTarget	Framebuffer.cpp	/^void Framebuffer::setTarget(const Target target) {$/;"	f	class:Framebuffer	signature:(const Target target)
+Framebuffer::texture	Framebuffer.cpp	/^void Framebuffer::texture($/;"	f	class:Framebuffer	signature:( const TexturePtr& texture, const AttachmentType& attachment, const GLint& level, const GLint& layer)
+Framebuffer::~Framebuffer	Framebuffer.cpp	/^Framebuffer::~Framebuffer() {$/;"	f	class:Framebuffer	signature:()
+Program	Program.cpp	/^Program::Program() {$/;"	f	class:Program	signature:()
+Program::Program	Program.cpp	/^Program::Program() {$/;"	f	class:Program	signature:()
+Program::attach	Program.cpp	/^void Program::attach(Shader& shader) {$/;"	f	class:Program	signature:(Shader& shader)
+Program::attach	Program.cpp	/^void Program::attach(ShaderPtr shader) {$/;"	f	class:Program	signature:(ShaderPtr shader)
+Program::debugLog	Program.cpp	/^void Program::debugLog() const {$/;"	f	class:Program	signature:() const
+Program::detach	Program.cpp	/^void Program::detach(Shader& shader) {$/;"	f	class:Program	signature:(Shader& shader)
+Program::detach	Program.cpp	/^void Program::detach(ShaderPtr shader) {$/;"	f	class:Program	signature:(ShaderPtr shader)
+Program::link	Program.cpp	/^void Program::link() {$/;"	f	class:Program	signature:()
+Program::~Program	Program.cpp	/^Program::~Program() {$/;"	f	class:Program	signature:()
+Shader	Shader.cpp	/^Shader::Shader(const Type type, const char* source_code, const GLint size): type_(type) {$/;"	f	class:Shader	signature:(const Type type, const char* source_code, const GLint size)
+Shader	Shader.cpp	/^Shader::Shader(const Type type, std::vector<char> source_code): type_(type) {$/;"	f	class:Shader	signature:(const Type type, std::vector<char> source_code)
+Shader::Shader	Shader.cpp	/^Shader::Shader(const Type type, const char* source_code, const GLint size): type_(type) {$/;"	f	class:Shader	signature:(const Type type, const char* source_code, const GLint size)
+Shader::Shader	Shader.cpp	/^Shader::Shader(const Type type, std::vector<char> source_code): type_(type) {$/;"	f	class:Shader	signature:(const Type type, std::vector<char> source_code)
+Shader::compile	Shader.cpp	/^void Shader::compile() {$/;"	f	class:Shader	signature:()
+Shader::debugLog	Shader.cpp	/^void Shader::debugLog() const {$/;"	f	class:Shader	signature:() const
+Shader::getShaderId	Shader.cpp	/^GLuint Shader::getShaderId() const {$/;"	f	class:Shader	signature:() const
+Shader::init_	Shader.cpp	/^void Shader::init_(const Type type, const char* source_code, const GLint size) {$/;"	f	class:Shader	signature:(const Type type, const char* source_code, const GLint size)
+Shader::source	Shader.cpp	/^void Shader::source(const char* source_code, const GLint size) {$/;"	f	class:Shader	signature:(const char* source_code, const GLint size)
+Shader::source	Shader.cpp	/^void Shader::source(const std::vector<char>& source_code) {$/;"	f	class:Shader	signature:(const std::vector<char>& source_code)
+Shader::~Shader	Shader.cpp	/^Shader::~Shader() {$/;"	f	class:Shader	signature:()
+StatusNames	Framebuffer.cpp	/^LookupNames Framebuffer::StatusNames = {$/;"	m	class:Framebuffer	file:
+TargetNames	Buffer.cpp	/^LookupNames Buffer::TargetNames = {$/;"	m	class:Buffer	file:
+TargetNames	Framebuffer.cpp	/^LookupNames Framebuffer::TargetNames = {$/;"	m	class:Framebuffer	file:
+UsageNames	Buffer.cpp	/^LookupNames Buffer::UsageNames = {$/;"	m	class:Buffer	file:
+attach	Program.cpp	/^void Program::attach(Shader& shader) {$/;"	f	class:Program	signature:(Shader& shader)
+attach	Program.cpp	/^void Program::attach(ShaderPtr shader) {$/;"	f	class:Program	signature:(ShaderPtr shader)
+checkStatus	Framebuffer.cpp	/^GLenum Framebuffer::checkStatus() const {$/;"	f	class:Framebuffer	signature:() const
+compile	Shader.cpp	/^void Shader::compile() {$/;"	f	class:Shader	signature:()
+debugLog	Program.cpp	/^void Program::debugLog() const {$/;"	f	class:Program	signature:() const
+debugLog	Shader.cpp	/^void Shader::debugLog() const {$/;"	f	class:Shader	signature:() const
+debugit	console.cpp	/^void debugit(int level, const char* format, ...) {$/;"	f	signature:(int level, const char* format, ...)
+detach	Program.cpp	/^void Program::detach(Shader& shader) {$/;"	f	class:Program	signature:(Shader& shader)
+detach	Program.cpp	/^void Program::detach(ShaderPtr shader) {$/;"	f	class:Program	signature:(ShaderPtr shader)
+errorit	console.cpp	/^void errorit(const char* format, ...) {$/;"	f	signature:(const char* format, ...)
+getID	Framebuffer.cpp	/^GLuint Framebuffer::getID() const {$/;"	f	class:Framebuffer	signature:() const
+getShaderId	Shader.cpp	/^GLuint Shader::getShaderId() const {$/;"	f	class:Shader	signature:() const
+getTarget	Framebuffer.cpp	/^Framebuffer::Target Framebuffer::getTarget() const {$/;"	f	class:Framebuffer	signature:() const
+init_	Shader.cpp	/^void Shader::init_(const Type type, const char* source_code, const GLint size) {$/;"	f	class:Shader	signature:(const Type type, const char* source_code, const GLint size)
+link	Program.cpp	/^void Program::link() {$/;"	f	class:Program	signature:()
+logit	console.cpp	/^void logit(const char* format, ...) {$/;"	f	signature:(const char* format, ...)
+renderbuffer	Framebuffer.cpp	/^void Framebuffer::renderbuffer(const RenderbufferPtr& rb, const AttachmentType attachment) {$/;"	f	class:Framebuffer	signature:(const RenderbufferPtr& rb, const AttachmentType attachment)
+renderbuffer	Framebuffer.cpp	/^void Framebuffer::renderbuffer(const RenderbufferPtr& rb, const Target target, const AttachmentType attachment) {$/;"	f	class:Framebuffer	signature:(const RenderbufferPtr& rb, const Target target, const AttachmentType attachment)
+setID_	Framebuffer.cpp	/^void Framebuffer::setID_(const GLuint id) {$/;"	f	class:Framebuffer	signature:(const GLuint id)
+setTarget	Framebuffer.cpp	/^void Framebuffer::setTarget(const Target target) {$/;"	f	class:Framebuffer	signature:(const Target target)
+source	Shader.cpp	/^void Shader::source(const char* source_code, const GLint size) {$/;"	f	class:Shader	signature:(const char* source_code, const GLint size)
+source	Shader.cpp	/^void Shader::source(const std::vector<char>& source_code) {$/;"	f	class:Shader	signature:(const std::vector<char>& source_code)
+texture	Framebuffer.cpp	/^void Framebuffer::texture($/;"	f	class:Framebuffer	signature:( const TexturePtr& texture, const AttachmentType& attachment, const GLint& level, const GLint& layer)
+warnit	console.cpp	/^void warnit(const char* format, ...) {$/;"	f	signature:(const char* format, ...)
+~Buffer	Buffer.cpp	/^Buffer::~Buffer() {$/;"	f	class:Buffer	signature:()
+~Framebuffer	Framebuffer.cpp	/^Framebuffer::~Framebuffer() {$/;"	f	class:Framebuffer	signature:()
+~Program	Program.cpp	/^Program::~Program() {$/;"	f	class:Program	signature:()
+~Shader	Shader.cpp	/^Shader::~Shader() {$/;"	f	class:Shader	signature:()
