@@ -7,4 +7,6 @@
 #include <Shader.hpp>
 #include <Texture.hpp>
 #include <VertexArray.hpp>
+#include <Application.hpp>
+#include <GLFWApplication.hpp>
 
