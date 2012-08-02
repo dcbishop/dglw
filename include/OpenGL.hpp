@@ -19,10 +19,16 @@
 #include <GL/freeglut.h>
 #endif
 
+#ifdef USE_CPP11_
+#define GLM_FORCE_CXX11
+#endif
+
+#include <glm/glm.hpp>
+
 #include "console.h"
 
 #ifdef _DEBUG
-#define logGLError() for(long err = glGetError(); err; err = glGetError()) { ERROR("OpenGL: %s", (char*)gluErrorString(err)); }
+#define logGLError() for(long err = glGetError(); err; err = glGetError()) { ERROR("OpenGL: %d", /*(char*)gluErrorString(*/err/*)*/); }
 #else
 #define logGLError()
 #endif /* _DEBUG */

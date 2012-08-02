@@ -1,3 +1,6 @@
+#ifndef DGLW_HPP_
+#define DGLW_HPP_
+
 #include <OpenGL.hpp>
 #include <Buffer.hpp>
 #include <Framebuffer.hpp>
@@ -9,4 +12,7 @@
 #include <VertexArray.hpp>
 #include <Application.hpp>
 #include <GLFWApplication.hpp>
+#include <Cube.hpp>
+#include <TextureQuad.hpp>
 
+#endif /* DGLW_HPP_ */

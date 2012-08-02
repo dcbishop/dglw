@@ -1,9 +1,6 @@
 ﻿#ifndef DGLW_GLFWAPPLICATION_HPP_
 #define DGLW_GLFWAPPLICATION_HPP_
 
-#include <functional>
-typedef std::function<void()> VoidFunction;
-
 #include "Application.hpp"
 
 namespace dglw {
@@ -17,12 +14,13 @@ class GLFWApplication : public Application {
 
       void setTitle(std::string title);
       virtual void setSize(const int width, const int height);
+      void initialize_();
 
    private:
       void update_();
       void render_();
 
-      bool is_initilized_;
+      bool is_initialized_;
 };
 
 } /* namespace dglw */
