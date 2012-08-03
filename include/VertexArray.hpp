@@ -64,13 +64,7 @@ typedef std::shared_ptr<VertexArray> VertexArrayPtr;
 typedef VertexArray VAO;
 
 inline VertexArray::VertexArray() {
-#ifdef USE_GLEW
-   if(!GLEW_ARB_vertex_array_object) {
-      ERROR("OpenGL context doesn't support vertex array objects!");
-      // [TODO]: Support fake vertex array object
-      throw std::runtime_error("OpenGL context doesn't support vertex array objects!");
-   }
-#endif
+   assert(glGenVertexArrays);
 	glGenVertexArrays(1, &array_);
    mode_ = Triangles;
    count_ = 0;

@@ -3,6 +3,8 @@
 using namespace dglw;
 
 Buffer::Buffer() {
+   logGLError();
+   assert(glGenBuffers);
    glGenBuffers(1, &buffer_id_);
    DEBUG_M("Created buffer %d.", buffer_id_);
    logGLError();
