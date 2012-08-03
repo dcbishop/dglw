@@ -31,43 +31,9 @@ void GLFWApplication::run() {
 
    bool running = true;
    
-   if(!update_function_) {
-      WARNING("You didn't provide an update function.");
-   }
-
-   if(!render_function_) {
-      WARNING("You didn't provide a render function.");
-   }
-
-   if(!glext_initialize_function_) {
-#ifdef USE_GLEW
-      LOG("Using GLEW for OpenGL extension loading.");
-      glext_initialize_function_ = std::bind([](){DEBUG_M("Initializing GLEW..."); glewInit();});
-#elif USE_GL3
-      LOG("Apparently using gl3.h for OpenGL extention loading. No initialization required.");
-#else
-      WARNING("There is no OpenGL extension initializer set.");
-#endif
-   }
-
-   Initializer init;
-   init.addInitializeFunction(std::bind(&dglw::GLFWApplication::initialize_, this)); //Initialize GLFW
-
-   if(glext_initialize_function_) {
-      init.addInitializeFunction(glext_initialize_function_);
-   }
-
-   // Initialize dglw
-   init.addInitializeFunction(dglw::initialize);
-
-   if(!initialize_function_) {
-      WARNING("You didn't provide an initialization function.");
-   } else {
-      init.addInitializeFunction(initialize_function_);
-   }
-
-   init.initialize();
-
+   init_list_.addInitializeFunction(std::bind(&dglw::GLFWApplication::initialize_, this)); //Initialize GLFW
+   Application::initialize();
+   
    while(running) {
       update_();
       render_();
@@ -76,6 +42,8 @@ void GLFWApplication::run() {
 }
 
 void GLFWApplication::initialize_() {
+   LOG("Initializing GLFW...");
+
    if(!glfwInit()) {
       ERROR("Failed to initialize GLFW.");
       return;
