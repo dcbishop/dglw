@@ -25,7 +25,8 @@ option( Demo            "Demo"          ON  )
 option( Debug           "Debug"         OFF )
 option( Testing         "Testing"       ON  )
 option( USE_GLFW        "USE_GLFW"      ON  )
-option( USE_GLEW        "USE_GLEW"      ON  )
+option( USE_GLEW        "USE_GLEW"      OFF )
+option( USE_GL3H        "USE_GL3H"      ON  )
 option( USE_OPENGL      "USE_OPENGL"    ON  )
 
 set(INSTALL_BIN_DIR bin CACHE PATH "Installation directory for executables")
@@ -131,7 +132,7 @@ endif()
 
 # For GL3/gl3.h
 if(USE_GL3H)
-    include_directories("${CMAKE_SOURCE_DIR}/external")
+    include_directories("${CMAKE_SOURCE_DIR}/extern")
     add_definitions(-DUSE_GL3H)
     message(STATUS "Using gl3.h")
 endif()
