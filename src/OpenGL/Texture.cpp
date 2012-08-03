@@ -24,11 +24,17 @@ LookupNames Texture::ParameterNames {
    { GL_TEXTURE_WRAP_S,         "GL_TEXTURE_WRAP_S"       },
    { GL_TEXTURE_WRAP_T,         "GL_TEXTURE_WRAP_T"       },
    { GL_TEXTURE_WRAP_R,         "GL_TEXTURE_WRAP_R"       },
+#ifdef GL_TEXTURE_PRIORITY
    { GL_TEXTURE_PRIORITY,       "GL_TEXTURE_PRIORITY"     },
+#endif
    { GL_TEXTURE_COMPARE_MODE,   "GL_TEXTURE_COMPARE_MODE" },
    { GL_TEXTURE_COMPARE_FUNC,   "GL_TEXTURE_COMPARE_FUNC" },
+#ifdef GL_DEPTH_TEXTURE_MODE
    { GL_DEPTH_TEXTURE_MODE,     "GL_DEPTH_TEXTURE_MODE"   },
+#endif
+#ifdef GL_GENERATE_MIPMAP
    { GL_GENERATE_MIPMAP,        "GL_GENERATE_MIPMAP"      }
+#endif
 };
        
 LookupNames Texture::FormatNames {  

@@ -34,11 +34,17 @@ class Texture {
          WrapS          = GL_TEXTURE_WRAP_S,
          WrapT          = GL_TEXTURE_WRAP_T,
          WrapR          = GL_TEXTURE_WRAP_R,
+#ifdef GL_TEXTURE_PRIORITY
          Priority       = GL_TEXTURE_PRIORITY,
+#endif
          CompareMode    = GL_TEXTURE_COMPARE_MODE,
          CompareFunc    = GL_TEXTURE_COMPARE_FUNC,
+#ifdef GL_DEPTH_TEXTURE_MODE
          DepthMode      = GL_DEPTH_TEXTURE_MODE,
+#endif
+#ifdef GL_GENERATE_MIPMAP
          GenerateMipmap = GL_GENERATE_MIPMAP
+#endif
       };
       
       enum Format: GLenum {
