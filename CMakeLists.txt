@@ -62,6 +62,7 @@ endif()
 # alternative is to manually keep a list of *all* source files =/
 file(GLOB_RECURSE SOURCES "${SOURCES_DIRECTORY}/*.cpp")
 file(GLOB_RECURSE HEADERS "${HEADERS_DIRECTORY}/*.h*")
+message("DEBUG: Rel headers: ${HEADERS}")
 
 include_directories("${HEADERS_DIRECTORY}/")
 #get_directory_property(INCLUDE_DIRECTORIES INCLUDE_DIRECTORIES)
@@ -230,7 +231,13 @@ endif(Demo)
 #############
 
 # Install the system wide headers in /include...
-install(FILES ${HEADERS} DESTINATION ${INSTALL_INCLUDE_DIR}/${LOWER_NAME} COMPONENT dev)
+foreach(FILE ${HEADERS})
+file(RELATIVE_PATH REL_FILE ${HEADERS_DIRECTORY}/ ${FILE})
+get_filename_component(REL_PATH ${REL_FILE} PATH)
+#message("Installing ${FILE} in ${REL_FILE} - ${HEADERS_DIRECTORY} - ${REL_PATH}")
+message("install(FILES ${HEADERS_DIRECTORY}/${REL_FILE} DESTINATION ${INSTALL_INCLUDE_DIR}/${LOWER_NAME}/${REL_PATH} COMPONENT dev)")
+install(FILES ${HEADERS_DIRECTORY}/${REL_FILE} DESTINATION ${INSTALL_INCLUDE_DIR}/${LOWER_NAME}/${REL_PATH} COMPONENT dev)
+endforeach()
 
 # Install the <Project>Config.cmake file
 install(FILES ${PROJECT_BINARY_DIR}/install/${CONFIG_FILENAME} DESTINATION ${INSTALL_ARCHIVE_DIR}/${LOWER_NAME})

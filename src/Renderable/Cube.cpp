@@ -1,4 +1,4 @@
-#include "Cube.hpp"
+#include "Renderable/Cube.hpp"
 
 #include <vector>
 using std::vector;

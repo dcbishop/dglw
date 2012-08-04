@@ -1,4 +1,4 @@
-#include "Program.hpp"
+#include "OpenGL/Program.hpp"
 
 #include "console.h"
 

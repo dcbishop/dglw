@@ -1,10 +1,10 @@
-﻿#include "GLFWApplication.hpp"
+﻿#include "Applications/GLFWApplication.hpp"
 
 #include "dglw.hpp"
 #include <GL/glfw.h>
 
 #include "console.h"
-#include "Initializer.hpp"
+#include "Support/Initializer.hpp"
 
 using namespace dglw;
 
@@ -50,8 +50,8 @@ void GLFWApplication::initialize_() {
    }
 
    if(use_core_profile_) {
-      glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
-      glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
+      //glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
+      //glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
       glfwOpenWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
       glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
    }

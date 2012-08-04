@@ -1,9 +1,9 @@
 #include <stdexcept>
-#include "Initializer.hpp"
+#include "Support/Initializer.hpp"
 
-#include "OpenGL.hpp"
-#include "Cube.hpp"
-#include "TextureQuad.hpp"
+#include "OpenGL/OpenGL.hpp"
+#include "Renderable/Cube.hpp"
+#include "Renderable/TextureQuad.hpp"
 
 namespace dglw {
 

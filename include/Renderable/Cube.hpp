@@ -5,8 +5,8 @@
 
 #include <glm/glm.hpp>
 
-#include "VertexArray.hpp"
-#include "Buffer.hpp"
+#include "OpenGL/VertexArray.hpp"
+#include "OpenGL/Buffer.hpp"
 
 namespace dglw {
 

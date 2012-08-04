@@ -15,7 +15,7 @@
 #ifndef DGLW_MATRIXSTACK_HPP_
 #define DGLW_MATRIXSTACK_HPP_
 
-#include "OpenGL.hpp"
+#include "OpenGL/OpenGL.hpp"
 
 #include <stack>
 
