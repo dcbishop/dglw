@@ -10,9 +10,9 @@
 #include <GL/gl.h>
 #endif
 
-#ifdef USE_GL3H
-#define GL3_PROTOTYPES
-#include <GL3/gl3.h>
+#ifdef USE_GLCOREARB
+#define GLCOREARB_PROTOTYPES
+#include <GL/glcorearb.h>
 #endif
 
 #ifdef USE_GLUT

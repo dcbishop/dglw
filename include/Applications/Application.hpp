@@ -92,8 +92,8 @@ inline void Application::initialize() {
          DEBUG_M("GLEW Version: %s", glewGetString(GLEW_VERSION));
       })
    );
-#elif USE_GL3
-   DEBUG_M("Apparently using gl3.h for OpenGL extention loading. No initialization required.");
+#elif USE_GLCOREARB
+   DEBUG_M("Apparently using glcorearb.h for OpenGL extention loading. No initialization required.");
 #else
    DEBUG_M("There is no OpenGL extension initializer set.");
 #endif

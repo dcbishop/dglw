@@ -18,16 +18,16 @@ string(TOUPPER ${PROJECT_NAME} UPPER_NAME)
 ##############################
 #  Projects default options  #
 ##############################
-option( C++11           "C++11"         ON  )
-option( Profile         "Profile"       OFF )
-option( Boost           "Boost"         ON  )
-option( Demo            "Demo"          ON  )
-option( Debug           "Debug"         OFF )
-option( Testing         "Testing"       ON  )
-option( USE_GLFW        "USE_GLFW"      ON  )
-option( USE_GLEW        "USE_GLEW"      OFF )
-option( USE_GL3H        "USE_GL3H"      ON  )
-option( USE_OPENGL      "USE_OPENGL"    ON  )
+option( C++11           "C++11"             ON  )
+option( Profile         "Profile"           OFF )
+option( Boost           "Boost"             ON  )
+option( Demo            "Demo"              ON  )
+option( Debug           "Debug"             OFF )
+option( Testing         "Testing"           ON  )
+option( USE_GLFW        "USE_GLFW"          ON  )
+option( USE_GLEW        "USE_GLEW"          OFF )
+option( USE_GLCOREARB   "USE_GLCOREARB"     ON  )
+option( USE_OPENGL      "USE_OPENGL"        ON  )
 
 set(INSTALL_BIN_DIR bin CACHE PATH "Installation directory for executables")
 set(INSTALL_LIB_DIR lib CACHE PATH "Installation directory for dynamic libraries")
@@ -62,7 +62,6 @@ endif()
 # alternative is to manually keep a list of *all* source files =/
 file(GLOB_RECURSE SOURCES "${SOURCES_DIRECTORY}/*.cpp")
 file(GLOB_RECURSE HEADERS "${HEADERS_DIRECTORY}/*.h*")
-message("DEBUG: Rel headers: ${HEADERS}")
 
 include_directories("${HEADERS_DIRECTORY}/")
 #get_directory_property(INCLUDE_DIRECTORIES INCLUDE_DIRECTORIES)
@@ -131,11 +130,11 @@ endif()
 #  Handle libraries  #
 ######################
 
-# For GL3/gl3.h
-if(USE_GL3H)
+# For glcorearb.h
+if(USE_GLCOREARB)
     include_directories("${CMAKE_SOURCE_DIR}/extern")
-    add_definitions(-DUSE_GL3H)
-    message(STATUS "Using gl3.h")
+    add_definitions(-DUSE_GLCOREARB)
+    message(STATUS "Using glcorearb.h")
 endif()
 
 # GLEW
@@ -234,8 +233,6 @@ endif(Demo)
 foreach(FILE ${HEADERS})
 file(RELATIVE_PATH REL_FILE ${HEADERS_DIRECTORY}/ ${FILE})
 get_filename_component(REL_PATH ${REL_FILE} PATH)
-#message("Installing ${FILE} in ${REL_FILE} - ${HEADERS_DIRECTORY} - ${REL_PATH}")
-message("install(FILES ${HEADERS_DIRECTORY}/${REL_FILE} DESTINATION ${INSTALL_INCLUDE_DIR}/${LOWER_NAME}/${REL_PATH} COMPONENT dev)")
 install(FILES ${HEADERS_DIRECTORY}/${REL_FILE} DESTINATION ${INSTALL_INCLUDE_DIR}/${LOWER_NAME}/${REL_PATH} COMPONENT dev)
 endforeach()
 
