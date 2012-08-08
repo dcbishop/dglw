@@ -48,6 +48,9 @@ void GLFWApplication::initialize_() {
       ERROR("Failed to initialize GLFW.");
       return;
    }
+   int major, minor, revision;
+   glfwGetVersion(&major, &minor, &revision);
+   LOG("GLFW version %d.%d.%d", major, minor, revision);
 
    if(use_core_profile_) {
       //glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
