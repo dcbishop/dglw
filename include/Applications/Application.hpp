@@ -4,6 +4,7 @@
 #include <string>
 
 #include "Support/Initializer.hpp"
+#include "OpenGL/OpenGL.hpp"
 #include "common.hpp"
 #include "console.h"
 
@@ -85,12 +86,12 @@ inline void Application::initialize() {
 #ifdef USE_GLEW
    LOG("Using GLEW for OpenGL extension loading.");
    init_list_.addInitializeFunction(
-      std::bind([](){
-         DEBUG_M("Initializing GLEW...");
+      [](){
+         LOG("Initializing GLEW...");
          //glewExperimental = true;
          glewInit();
-         DEBUG_M("GLEW Version: %s", glewGetString(GLEW_VERSION));
-      })
+         LOG("GLEW Version: %s", glewGetString(GLEW_VERSION));
+      }
    );
 #elif USE_GLCOREARB
    DEBUG_M("Apparently using glcorearb.h for OpenGL extention loading. No initialization required.");
@@ -98,15 +99,29 @@ inline void Application::initialize() {
    DEBUG_M("There is no OpenGL extension initializer set.");
 #endif
 
+   // Log OpenGL version
+   auto version_function = []() {
+      if(glGetString == nullptr) {
+         ERROR("glGetString is not defined!");
+         return;
+      }
+      const GLubyte* gl_version = glGetString(GL_VERSION);
+      LOG("OpenGL %s", gl_version);
+   };
+   init_list_.addInitializeFunction(version_function);
+   
    // Initialize dglw
    init_list_.addInitializeFunction(dglw::initialize);
 
+   // Execute userdefined initilize function
    if(initialize_function_) {
       init_list_.addInitializeFunction(initialize_function_);
    }
 
+   // Actually initilize everything
    init_list_.initialize();
-   is_initialized_ = true;
+
+   is_initialized_ = true; 
 }
 
 } /* namespace dglw */
