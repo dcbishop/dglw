@@ -9,7 +9,13 @@
 using namespace dglw;
 
 GLFWApplication::GLFWApplication() {
-   setSize(800, 600);
+   is_initialized_ = false;
+   use_core_profile_ = false;
+   opengl_major_ = -1;
+   opengl_minor_ = -1;
+   opengl_forward_compat_ = -1;
+   width_ = 800;
+   height_ = 600;
    setCoreProfile(false);
 }
 
@@ -53,11 +59,24 @@ void GLFWApplication::initialize_() {
    glfwGetVersion(&major, &minor, &revision);
    LOG("GLFW version %d.%d.%d", major, minor, revision);
 
-   if(use_core_profile_) {
-      glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 4);
-      glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
+   if(opengl_forward_compat_ > 0) {
+      DEBUG_M("Setting OpenGL forward Compatiblity profile");
       glfwOpenWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+   }
+
+   if(use_core_profile_) {
+      DEBUG_M("Setting OpenGL core profile");
       glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+   }
+
+   if(opengl_major_ >= 0) {
+      DEBUG_M("Setting OpenGL major version to %s", opengl_major_);
+      glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, opengl_major_);
+   }
+
+   if(opengl_minor_ >= 0) {
+      DEBUG_M("Setting OpenGL minor version to %s", opengl_minor_);
+      glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, opengl_minor_);
    }
 
    if(!glfwOpenWindow(width_, height_, 0, 0, 0, 0, 0, 0, GLFW_WINDOW)) {

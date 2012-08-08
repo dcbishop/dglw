@@ -24,13 +24,17 @@ class Application {
       virtual void setInitializeFunction(VoidFunction initialize_function);
       
       virtual void setCoreProfile(const bool use_core=true);
-      
+      void setOpenGLVersion(const int major, const int minor);
+      void setForwardCompat(const bool forward=true);
       unsigned int getWidth();
       unsigned int getHeight();
 
    protected:
       unsigned int width_;
       unsigned int height_;
+      int opengl_major_;
+      int opengl_minor_;
+      char opengl_forward_compat_;
       bool use_core_profile_;
       bool is_initialized_;
 
@@ -67,6 +71,12 @@ inline unsigned int Application::getHeight() {
 inline Application::Application() {
    is_initialized_ = false;
    use_core_profile_ = false;
+   opengl_major_ = -1;
+   opengl_minor_ = -1;
+   opengl_forward_compat_ = -1;
+   width_ = 800;
+   height_ = 600;
+   setCoreProfile(false);
 }
 
 inline void Application::initialize() {
@@ -113,6 +123,7 @@ inline void Application::initialize() {
       } else {
          const GLubyte* gl_version = glGetString(GL_VERSION);
          LOG("OpenGL %s", gl_version);
+
       }
    };
    init_list_.addInitializeFunction(version_function);
@@ -129,6 +140,15 @@ inline void Application::initialize() {
    init_list_.initialize();
 
    is_initialized_ = true; 
+}
+
+inline void Application::setOpenGLVersion(const int major, const int minor) {
+   opengl_major_ = major;
+   opengl_minor_ = minor;
+}
+
+inline void Application::setForwardCompat(const bool forward) {
+   opengl_forward_compat_ = forward;
 }
 
 } /* namespace dglw */
