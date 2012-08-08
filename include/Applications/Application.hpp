@@ -89,7 +89,10 @@ inline void Application::initialize() {
       [](){
          LOG("Initializing GLEW...");
          //glewExperimental = true;
-         glewInit();
+         GLenum err = glewInit();
+         if(err != GLEW_OK) {
+            ERROR("Failed to initialize GLEW!");
+         }
          LOG("GLEW Version: %s", glewGetString(GLEW_VERSION));
       }
    );
@@ -105,8 +108,12 @@ inline void Application::initialize() {
          ERROR("glGetString is not defined!");
          return;
       }
-      const GLubyte* gl_version = glGetString(GL_VERSION);
-      LOG("OpenGL %s", gl_version);
+      if(!glGetString) {
+         ERROR("glGetString not defined!");
+      } else {
+         const GLubyte* gl_version = glGetString(GL_VERSION);
+         LOG("OpenGL %s", gl_version);
+      }
    };
    init_list_.addInitializeFunction(version_function);
    
