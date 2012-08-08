@@ -26,6 +26,8 @@ class Application {
       virtual void setCoreProfile(const bool use_core=true);
       void setOpenGLVersion(const int major, const int minor);
       void setForwardCompat(const bool forward=true);
+      void setDebugContext(const bool debug=true);
+
       unsigned int getWidth();
       unsigned int getHeight();
 
@@ -37,6 +39,7 @@ class Application {
       char opengl_forward_compat_;
       bool use_core_profile_;
       bool is_initialized_;
+      bool opengl_debug_;
 
       Initializer init_list_;
       VoidFunction render_function_;
@@ -76,6 +79,7 @@ inline Application::Application() {
    opengl_forward_compat_ = -1;
    width_ = 800;
    height_ = 600;
+   opengl_debug_ = false;
    setCoreProfile(false);
 }
 
@@ -149,6 +153,10 @@ inline void Application::setOpenGLVersion(const int major, const int minor) {
 
 inline void Application::setForwardCompat(const bool forward) {
    opengl_forward_compat_ = forward;
+}
+
+inline void Application::setDebugContext(const bool debug) {
+   opengl_debug_ = debug;
 }
 
 } /* namespace dglw */

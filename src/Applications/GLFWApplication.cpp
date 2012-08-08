@@ -16,6 +16,11 @@ GLFWApplication::GLFWApplication() {
    opengl_forward_compat_ = -1;
    width_ = 800;
    height_ = 600;
+#ifdef _DEBUG
+   opengl_debug_ = true;
+#else
+   opengl_debug_ = false;
+#endif
    setCoreProfile(false);
 }
 
@@ -77,6 +82,11 @@ void GLFWApplication::initialize_() {
    if(opengl_minor_ >= 0) {
       DEBUG_M("Setting OpenGL minor version to %s", opengl_minor_);
       glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, opengl_minor_);
+   }
+
+   if(opengl_debug_) {
+      DEBUG_M("Setting OpenGL debug context...");
+      glfwOpenWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
    }
 
    if(!glfwOpenWindow(width_, height_, 0, 0, 0, 0, 0, 0, GLFW_WINDOW)) {
