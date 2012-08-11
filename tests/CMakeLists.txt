@@ -1,0 +1,38 @@
+find_package(GTest)
+if(!GTEST_FOUND)
+   message(AUTHOR_WARNING "Could not find Google Test libraries...")
+   return()
+endif()
+ 
+# GLEW
+if(USE_GLEW)
+    find_package(GLEW REQUIRED)
+    if(GLEW_FOUND)
+        list(APPEND COMMON_LIBS ${GLEW_LIBRARIES})
+        add_definitions(-DHAVE_GLEW)
+        add_definitions(-DUSE_GLEW)
+    else()
+        message(FATAL_ERROR "GLEW not found!")
+        return()
+    endif()
+endif()
+
+# GLFW target
+if(USE_GLFW)
+   find_package(GLFW REQUIRED)
+   if(GLFW_FOUND)
+       set(GLFW_PROJECT_NAME "${PROJECT_NAME}-glfw")
+       list(APPEND COMMON_LIBS ${GLFW_LIBRARIES})
+   else()
+       message(FATAL_ERROR "GLFW not found!")
+   endif()
+endif()
+
+# Register the package with CMakes built in testing system ctest
+enable_testing()
+LIST(REMOVE_ITEM SOURCES "${MAIN_SOURCE}")
+string(TOLOWER ${PROJECT_NAME}_unittest PROJECT_TEST_NAME)
+add_executable(${PROJECT_TEST_NAME} ${CMAKE_SOURCE_DIR}/tests/unittest.cpp ${SOURCES})
+target_link_libraries(${PROJECT_TEST_NAME} ${GTEST_BOTH_LIBRARIES} pthread ${COMMON_LIBS})
+message(STATUS "GTest libs: ${GTEST_BOTH_LIBRARIES}")
+add_test(${PROJECT_TEST_NAME}, ${PROJECT_TEST_NAME})
