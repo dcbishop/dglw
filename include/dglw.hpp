@@ -14,5 +14,6 @@
 #include <Applications/GLFWApplication.hpp>
 #include <Renderable/Cube.hpp>
 #include <Renderable/TextureQuad.hpp>
+#include <Support/ResourceManager.hpp>
 
 #endif /* DGLW_HPP_ */
