@@ -105,7 +105,7 @@ AttributeList Program::getActiveAttributes() const {
    return al;
 }
 
-AttributeList Program::getActiveUniforms() const {
+UniformList Program::getActiveUniforms() const {
    UniformList ul;
 
    // Get the number of active attributes
