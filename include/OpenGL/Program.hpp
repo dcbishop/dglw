@@ -76,6 +76,12 @@ class Program {
        */
       AttributeList getActiveAttributes() const;
 
+      /**
+       * Retrieves a list of the shader program's active uniforms.
+       * @return a UniformList (std::vector of UniformInfo) containg the active uniforms.
+       */
+      UniformList getActiveUniforms() const;
+
       GLuint getUniformLocation(const GLchar* name);
       GLuint getUniformBlockIndex(const GLchar* uniformBlockName) const;
       void getActiveUniformBlock(const GLuint& uniformBlockIndex, const Paramater& pname, GLint* params) const;

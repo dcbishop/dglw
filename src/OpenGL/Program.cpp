@@ -104,3 +104,36 @@ AttributeList Program::getActiveAttributes() const {
    }
    return al;
 }
+
+AttributeList Program::getActiveUniforms() const {
+   UniformList ul;
+
+   // Get the number of active attributes
+   GLint num_uniforms;
+   glGetProgramiv(getProgramId(), GL_ACTIVE_UNIFORMS, &num_uniforms);
+
+   // The the maximum size of the attribe names
+   GLsizei max_name_length;
+   glGetProgramiv(getProgramId(), GL_ACTIVE_UNIFORM_MAX_LENGTH, &max_name_length);
+
+   GLsizei length;
+   GLchar name[max_name_length];
+
+   for(int index = 0; index < num_uniforms; index++) {
+      UniformInfo ui;
+
+      // Retrive atribute data and store it in the info struct
+      ui.index = index;
+      glGetActiveUniform(getProgramId(),
+         index,
+         max_name_length,
+         &length,
+         &ui.size,
+         &ui.type,
+         &name[0]);
+      ui.name = std::string(&name[0], length);
+
+      ul.push_back(ui);
+   }
+   return ul;
+}
