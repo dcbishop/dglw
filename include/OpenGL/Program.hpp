@@ -11,6 +11,19 @@
 
 namespace dglw {
 
+struct DataTypeInfo {
+   std::string name;
+   GLuint index;
+   GLenum type;
+   GLint size;
+};
+
+typedef DataTypeInfo AttributeInfo;
+typedef DataTypeInfo UniformInfo;
+
+typedef std::vector<AttributeInfo> AttributeList;
+typedef std::vector<UniformInfo> UniformList;
+
 typedef std::set<ShaderPtr> ShaderList;
 class Program {
    public:
@@ -44,6 +57,24 @@ class Program {
       void detach(Shader& shader);
       GLuint getProgramId() const;
       void setProgramId(const GLuint program_id);
+      
+      /**
+       * Gets the shader program's links status.
+       * @return true if linked.
+       */
+      bool getLinkStatus() const;
+
+      /**
+       * Retrieves the shader program info log.
+       * @return The program info log or an empty string if none exists.
+       **/
+      std::string getInfoLog() const;
+
+      /**
+       * Retrieves a list of the shader program's active attributes.
+       * @return a AttributeList (std::vector of AttributeInfo) containg the active attributes.
+       */
+      AttributeList getActiveAttributes() const;
 
       GLuint getUniformLocation(const GLchar* name);
       GLuint getUniformBlockIndex(const GLchar* uniformBlockName) const;
