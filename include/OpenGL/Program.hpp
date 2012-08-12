@@ -82,7 +82,7 @@ class Program {
        */
       UniformList getActiveUniforms() const;
 
-      GLuint getUniformLocation(const GLchar* name);
+      GLuint getUniformLocation(const GLchar* name) const;
       GLuint getUniformBlockIndex(const GLchar* uniformBlockName) const;
       void getActiveUniformBlock(const GLuint& uniformBlockIndex, const Paramater& pname, GLint* params) const;
       void getActiveUniformBlockName(const GLuint uniformBlockIndex, const GLsizei bufSize, GLsizei* length, GLchar* uniformBlockName) const;
@@ -93,13 +93,16 @@ class Program {
 
       void uniformBlockBinding(const GLuint& uniformBlockIndex, const GLuint& uniformBlockBinding);
       void bindAttribLocation(const GLuint index, const GLchar* name);
-      void uniformMatrix(const glm::mat4& matrix, const GLuint index);
-      void uniformMatrix(const glm::mat3& matrix, const GLuint index);
 
+      void uniform(const glm::mat4& matrix, const GLuint index);
+      void uniform(const glm::mat3& matrix, const GLuint index);
       void uniform(const GLfloat& v0, const GLuint& index);
       void uniform(const glm::vec2& v, const GLuint& index);
       void uniform(const glm::vec3& v, const GLuint& index);
       void uniform(const glm::vec4& v, const GLuint& index);
+
+      UniformInfo getUniformInfo(const std::string& name) const;
+      UniformInfo getUniformInfo(const GLint index) const;
 
       void link();
       void use();
@@ -122,8 +125,7 @@ inline void Program::setProgramId(const GLuint program_id) {
    program_id_ = program_id;
 }
 
-inline GLuint Program::getUniformLocation(const GLchar* name) {
-   use();
+inline GLuint Program::getUniformLocation(const GLchar* name) const {
    GLuint location = glGetUniformLocation(getProgramId(), name);
    logGLError();
    return location;
@@ -169,13 +171,13 @@ inline void Program::bindAttribLocation(const GLuint index, const GLchar* name) 
    logGLError();
 }
 
-inline void Program::uniformMatrix(const glm::mat4& matrix, const GLuint index) {
+inline void Program::uniform(const glm::mat4& matrix, const GLuint index) {
    use();
    glUniformMatrix4fv(index, 1, GL_FALSE, &matrix[0][0]);
    logGLError();
 }
 
-inline void Program::uniformMatrix(const glm::mat3& matrix, const GLuint index) {
+inline void Program::uniform(const glm::mat3& matrix, const GLuint index) {
    use();
    glUniformMatrix3fv(index, 1, GL_FALSE, &matrix[0][0]);
    logGLError();
@@ -209,6 +211,8 @@ inline void Program::use() {
 inline void Program::unuse() {
    glUseProgram(0);
 }
+
+
 
 } /* namespace dglw */
 
