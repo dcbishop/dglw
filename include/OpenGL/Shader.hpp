@@ -19,7 +19,10 @@ class Shader {
          TessEvaluation = GL_TESS_EVALUATION_SHADER,
 #endif
          Geometry       = GL_GEOMETRY_SHADER,
-         Fragment       = GL_FRAGMENT_SHADER
+         Fragment       = GL_FRAGMENT_SHADER,
+#ifdef GL_COMPUTE_SHADER
+         Compute        = GL_COMPUTE_SHADER,
+#endif
       };
 
       Shader(const Type type, std::vector<char> source_code);
