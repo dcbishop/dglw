@@ -15,5 +15,7 @@
 #include <Renderable/Cube.hpp>
 #include <Renderable/TextureQuad.hpp>
 #include <Support/ResourceManager.hpp>
+#include <Support/UniformBind.hpp>
+#include <Support/Initializer.hpp>
 
 #endif /* DGLW_HPP_ */

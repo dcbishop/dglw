@@ -21,8 +21,17 @@ struct DataTypeInfo {
 typedef DataTypeInfo AttributeInfo;
 typedef DataTypeInfo UniformInfo;
 
+struct UniformBlockInfo {
+   GLuint index;
+   std::string name;
+   GLint binding;
+   GLint num_active_uniforms;
+   GLsizei max_name_length;
+};
+
 typedef std::vector<AttributeInfo> AttributeList;
 typedef std::vector<UniformInfo> UniformList;
+typedef std::vector<UniformBlockInfo> UniformBlockList;
 
 typedef std::set<ShaderPtr> ShaderList;
 class Program {
@@ -48,6 +57,32 @@ class Program {
          UniformAtomicCounterBuffer = GL_UNIFORM_ATOMIC_COUNTER_BUFFER_INDEX
 #endif
       };
+      
+      enum ProgramParam: GLenum {
+         DeleteStatus = GL_DELETE_STATUS,
+         LinkStatus = GL_LINK_STATUS,
+         ValidateStatus = GL_VALIDATE_STATUS,
+         InfoLogLength = GL_INFO_LOG_LENGTH,
+         AttachedShaders = GL_ATTACHED_SHADERS,
+         ActiveAttributes = GL_ACTIVE_ATTRIBUTES,
+         ActiveAttributeMaxLength = GL_ACTIVE_ATTRIBUTE_MAX_LENGTH,
+         ActiveUniforms = GL_ACTIVE_UNIFORMS,
+         ActiveUniformBlocks = GL_ACTIVE_UNIFORM_BLOCKS,
+         ActiveUniformBlockMaxNameLength = GL_ACTIVE_UNIFORM_BLOCK_MAX_NAME_LENGTH,
+         ActiveUniformMaxLength = GL_ACTIVE_UNIFORM_MAX_LENGTH,
+#ifdef GL_COMPUTE_WORK_GROUP_SIZE
+         ComputeWorkGroupSize = GL_COMPUTE_WORK_GROUP_SIZE,
+#endif
+#ifdef GL_PROGRAM_BINARY_LENGTH
+         ProgramBinaryLength = GL_PROGRAM_BINARY_LENGTH,
+#endif
+         TransformFeedbackBufferMode = GL_TRANSFORM_FEEDBACK_BUFFER_MODE,
+         TransformFeedbackVaryings = GL_TRANSFORM_FEEDBACK_VARYINGS,
+         TransformFeedbackVaryingMaxLength = GL_TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH,
+         GeometryVerticesOut = GL_GEOMETRY_VERTICES_OUT,
+         GeometryInputType = GL_GEOMETRY_INPUT_TYPE,
+         GeometryOutputOype = GL_GEOMETRY_OUTPUT_TYPE
+      };
 
       Program();
       ~Program();
@@ -57,7 +92,12 @@ class Program {
       void detach(Shader& shader);
       GLuint getProgramId() const;
       void setProgramId(const GLuint program_id);
-      
+
+      /**
+       * Returns a parameter from a program object/
+       */
+      void getProgram(const ProgramParam param, GLint* params) const;
+
       /**
        * Gets the shader program's links status.
        * @return true if linked.
@@ -81,6 +121,7 @@ class Program {
        * @return a UniformList (std::vector of UniformInfo) containg the active uniforms.
        */
       UniformList getActiveUniforms() const;
+      UniformBlockList getActiveUniformBlocks() const;
 
       GLuint getUniformLocation(const GLchar* name) const;
       GLuint getUniformBlockIndex(const GLchar* uniformBlockName) const;
@@ -123,6 +164,10 @@ inline GLuint Program::getProgramId() const {
 
 inline void Program::setProgramId(const GLuint program_id) {
    program_id_ = program_id;
+}
+
+inline void Program::getProgram(const ProgramParam param, GLint* params) const {
+   glGetProgramiv(getProgramId(), param, params);
 }
 
 inline GLuint Program::getUniformLocation(const GLchar* name) const {
@@ -172,35 +217,52 @@ inline void Program::bindAttribLocation(const GLuint index, const GLchar* name) 
 }
 
 inline void Program::uniform(const glm::mat4& matrix, const GLuint index) {
-   use();
+   glProgramUniformMatrix4fv(getProgramId(), index, 1, GL_FALSE, &matrix[0][0]);
+   /*use();
    glUniformMatrix4fv(index, 1, GL_FALSE, &matrix[0][0]);
-   logGLError();
+   logGLError();*/
 }
 
 inline void Program::uniform(const glm::mat3& matrix, const GLuint index) {
-   use();
+   glProgramUniformMatrix3fv(getProgramId(), index, 1, GL_FALSE, &matrix[0][0]);
+   /*use();
    glUniformMatrix3fv(index, 1, GL_FALSE, &matrix[0][0]);
-   logGLError();
+   logGLError();*/
 }
 
 inline void Program::uniform(const GLfloat& v0, const GLuint& index) {
-   use();
-   glUniform1f(index, v0);
+   glProgramUniform1f(getProgramId(), index, v0);
+   /*use();
+   glUniform1f(index, v0);*/
 }
 
 inline void Program::uniform(const glm::vec2& v, const GLuint& index) {
-   use();
-   glUniform2f(index, v[0], v[1]);
+   glProgramUniform2f(getProgramId(), index, v[0], v[1]);
+   /*use();
+   glUniform2f(index, v[0], v[1]);*/
 }
 
 inline void Program::uniform(const glm::vec3& v, const GLuint& index) {
-   use();
-   glUniform3f(index, v[0], v[1], v[2]);
+   glProgramUniform3f(getProgramId(), index, v[0], v[1], v[2]);
+   /*use();
+   glUniform3f(index, v[0], v[1], v[2]);*/
 }
 
 inline void Program::uniform(const glm::vec4& v, const GLuint& index) {
-   use();
-   glUniform4f(index, v[0], v[1], v[2], v[3]);
+   glProgramUniform4f(getProgramId(), index, v[0], v[1], v[2], v[3]);
+   /*use();
+   glUniform4f(index, v[0], v[1], v[2], v[3]);*/
+}
+
+inline void Program::link() {
+   glLinkProgram(program_id_);
+   logGLError();
+}
+
+inline bool Program::getLinkStatus() const {
+   GLint param;
+   glGetProgramiv(program_id_, GL_LINK_STATUS, &param);
+   return param;
 }
 
 inline void Program::use() {
@@ -211,8 +273,6 @@ inline void Program::use() {
 inline void Program::unuse() {
    glUseProgram(0);
 }
-
-
 
 } /* namespace dglw */
 

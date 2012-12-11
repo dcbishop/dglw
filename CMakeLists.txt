@@ -18,16 +18,16 @@ string(TOUPPER ${PROJECT_NAME} UPPER_NAME)
 ##############################
 #  Projects default options  #
 ##############################
-option( C++11           "C++11"             ON  )
-option( Profile         "Profile"           OFF )
-#option( Boost           "Boost"             ON  )
-option( Demo            "Demo"              ON  )
-option( Debug           "Debug"             OFF )
-option( Testing         "Testing"           ON  )
-option( USE_GLFW        "USE_GLFW"          ON  )
-option( USE_GLEW        "USE_GLEW"          OFF )
-option( USE_GLCOREARB   "USE_GLCOREARB"     ON  )
-option( USE_OPENGL      "USE_OPENGL"        ON  )
+option( C++11           "C++11"         ON  )
+option( Profile         "Profile"       OFF )
+#option( Boost           "Boost"         ON  )
+option( Demo            "Demo"          ON  )
+option( Debug           "Debug"         OFF )
+option( Testing         "Testing"       ON  )
+option( USE_GLFW        "USE_GLFW"      ON  )
+option( USE_GLEW        "USE_GLEW"      OFF )
+option( USE_GLCOREARB   "USE_GLCOREARB" ON  )
+option( USE_OPENGL      "USE_OPENGL"    ON  )
 
 set(INSTALL_BIN_DIR bin CACHE PATH "Installation directory for executables")
 set(INSTALL_LIB_DIR lib CACHE PATH "Installation directory for dynamic libraries")
@@ -35,7 +35,7 @@ set(INSTALL_ARCHIVE_DIR lib CACHE PATH "Installation directory for static librar
 set(INSTALL_INCLUDE_DIR include CACHE PATH "Installation directory for header files")
 
 # Lazy way to manually add custom debug build compiler flags here...
-#set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O3")
+#list(APPEND CMAKE_CXX_FLAGS_DEBUG "-O3")
 
 
 ###############
@@ -44,14 +44,14 @@ set(INSTALL_INCLUDE_DIR include CACHE PATH "Installation directory for header fi
 
 # Ensure that setting the debug option also sets the build type and visaversa
 if(Debug)
-    set(CMAKE_BUILD_TYPE "Debug")
+   set(CMAKE_BUILD_TYPE "Debug")
 elseif(CMAKE_BUILD_TYPE MATCHES "Debug")
-    option(Debug "Debug" ON)
+   option(Debug "Debug" ON)
 endif()
 
 # Set _DEBUG #define for project
 if(Debug)
-    add_definitions(-D_DEBUG)
+   add_definitions(-D_DEBUG)
 endif()
 
 
@@ -64,12 +64,9 @@ file(GLOB_RECURSE SOURCES "${SOURCES_DIRECTORY}/*.cpp")
 file(GLOB_RECURSE HEADERS "${HEADERS_DIRECTORY}/*.h*")
 
 include_directories("${HEADERS_DIRECTORY}/")
-#get_directory_property(INCLUDE_DIRECTORIES INCLUDE_DIRECTORIES)
 
 # CMake modules
-set(CMAKE_MODULE_PATH
-     ${CMAKE_SOURCE_DIR}/cmake
-     ${CMAKE_MODULE_PATH})
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 
 ###################################
@@ -81,6 +78,7 @@ set(CMAKE_MODULE_PATH
 # Set the project name
 add_definitions(-DPROJECT_NAME_="${PROJECT_NAME}")
 
+# Set the defines
 # Build time define
 include(GetDateTime)
 DATETIME(BUILD_DATETIME)
@@ -88,11 +86,11 @@ add_definitions(-DBUILD_DATE_="${BUILD_DATETIME}")
 
 # Build type
 if(CMAKE_BUILD_TYPE)
-    add_definitions(-DBUILD_TYPE_="${CMAKE_BUILD_TYPE}")
-    message("Build type: ${CMAKE_BUILD_TYPE}")
+   add_definitions(-DBUILD_TYPE_="${CMAKE_BUILD_TYPE}")
+   message("Build type: ${CMAKE_BUILD_TYPE}")
 else()
-    add_definitions(-DBUILD_TYPE_="Default")
-    message(STATUS "Using default build type...")
+   add_definitions(-DBUILD_TYPE_="Default")
+   message(STATUS "Using default build type...")
 endif()
 
 # Git version info
@@ -106,23 +104,23 @@ add_definitions(-DGIT_SHA1_="${GIT_SHA1}")
 
 # Detect clang++ compiler
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    set(CMAKE_COMPILER_IS_CLANGXX_)
+   set(CMAKE_COMPILER_IS_CLANGXX_)
 endif()
 
 # Compiler specific flags...
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_CLANGXX_)
-    if(C++11)
-        message(STATUS "Enabling C++11 support...")
-        list(APPEND CMAKE_CXX_FLAGS "-std=c++0x")
-        add_definitions(-DUSE_CPP11_)
-    endif()
+   if(C++11)
+      message(STATUS "Enabling C++11 support...")
+      list(APPEND CMAKE_CXX_FLAGS "-std=c++0x")
+      add_definitions(-DUSE_CPP11_)
+   endif()
 
-    list(APPEND CMAKE_CXX_FLAGS_RELEASE "-O3 -Werror")
-    
-    if(Profile)
-        message("Profiling: ON...")
-        list(APPEND CMAKE_CXX_FLAGS "-pg")
-    endif()
+   list(APPEND CMAKE_CXX_FLAGS_RELEASE "-O3 -Werror")
+
+   if(Profile)
+      message("Profiling: ON...")
+      list(APPEND CMAKE_CXX_FLAGS "-pg")
+   endif()
 endif()
 
 
@@ -132,35 +130,39 @@ endif()
 
 # For glcorearb.h
 if(USE_GLCOREARB)
-    include_directories("${CMAKE_SOURCE_DIR}/extern")
-    add_definitions(-DUSE_GLCOREARB)
-    message(STATUS "Using glcorearb.h")
+   include_directories("${CMAKE_SOURCE_DIR}/extern")
+   add_definitions(-DUSE_GLCOREARB)
+   message(STATUS "Using glcorearb.h")
 endif()
 
 # OpenGL
 #if(USE_OPENGL)
-    find_package(OpenGL REQUIRED)
-    if(OPENGL_FOUND)
-        add_definitions(-DHAVE_OPENGL)
-        set(COMMON_LIBS ${COMMON_LIBS} ${OPENGL_LIBRARIES})
-    else()
-        message(FATAL_ERROR "Could not find OpenGL libraries!")
-    endif()
+   find_package(OpenGL REQUIRED)
+   if(OPENGL_FOUND)
+      add_definitions(-DHAVE_OPENGL)
+      list(APPEND COMMON_LIBS ${OPENGL_LIBRARIES})
+   else()
+      message(FATAL_ERROR "Could not find OpenGL libraries!")
+   endif()
 #endif()
 
 # Add Boost libs
 #if(USE_BOOST)
-    find_package(Boost COMPONENTS filesystem system REQUIRED)
-    if(Boost_FOUND)
-        include_directories(${Boost_INCLUDE_DIRS})
-        add_definitions(-DHAVE_BOOST)
-        list(APPEND COMMON_LIBS ${Boost_LIBRARIES})
+   find_package(Boost COMPONENTS filesystem system REQUIRED)
+   if(Boost_FOUND)
+      include_directories(${Boost_INCLUDE_DIRS})
+      add_definitions(-DHAVE_BOOST)
+      list(APPEND COMMON_LIBS ${Boost_LIBRARIES})
 
-    else()
-        message(FATAL_ERROR "Boost not found!")
-    endif()
+   else()
+      message(FATAL_ERROR "Boost not found!")
+   endif()
 #endif()
 
+# Add dglw libs
+find_package(dglw REQUIRED)
+include_directories(${DGLW_INCLUDE_DIRS})
+list(APPEND COMMON_LIBS ${DGLW_LIBRARIES})
 
 ##########################################
 #  Register the libraries the CMake way  #
@@ -191,7 +193,7 @@ configure_file(${CONFIG_FILENAME}.in ${PROJECT_BINARY_DIR}/install/${CONFIG_FILE
 #######################
 add_library(${LOWER_NAME} ${SOURCES})
 if(Demo)
-    add_subdirectory(demo)
+   add_subdirectory(demo)
 endif(Demo)
 
 
@@ -201,9 +203,9 @@ endif(Demo)
 
 # Install the system wide headers in /include...
 foreach(FILE ${HEADERS})
-file(RELATIVE_PATH REL_FILE ${HEADERS_DIRECTORY}/ ${FILE})
-get_filename_component(REL_PATH ${REL_FILE} PATH)
-install(FILES ${HEADERS_DIRECTORY}/${REL_FILE} DESTINATION ${INSTALL_INCLUDE_DIR}/${LOWER_NAME}/${REL_PATH} COMPONENT dev)
+   file(RELATIVE_PATH REL_FILE ${HEADERS_DIRECTORY}/ ${FILE})
+   get_filename_component(REL_PATH ${REL_FILE} PATH)
+   install(FILES ${HEADERS_DIRECTORY}/${REL_FILE} DESTINATION ${INSTALL_INCLUDE_DIR}/${LOWER_NAME}/${REL_PATH} COMPONENT dev)
 endforeach()
 
 # Install the <Project>Config.cmake file
@@ -217,5 +219,5 @@ install(TARGETS ${LOWER_NAME} ARCHIVE DESTINATION ${INSTALL_ARCHIVE_DIR}/${LOWER
 #  Testing  #
 #############
 if(Testing)
-    add_subdirectory(tests)
+   add_subdirectory(tests)
 endif()

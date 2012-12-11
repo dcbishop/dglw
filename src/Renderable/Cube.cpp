@@ -37,7 +37,7 @@ void Cube::initialize() {
    if(is_initialized_) {
       return;
    }
-   DEBUG_M("Initializing Cube archtype...");
+   DEBUG_M("Initializing Cube archetype...");
    GLfloat p = 0.5f;
    GLfloat n = -p;
 

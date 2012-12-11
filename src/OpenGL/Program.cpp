@@ -1,8 +1,9 @@
 #include "OpenGL/Program.hpp"
+#include "Support/UniformBind.hpp"
 
 #include "console.h"
 
-using namespace dglw;
+namespace dglw {
 
 Program::Program() {
    program_id_ = glCreateProgram();
@@ -41,17 +42,6 @@ void Program::detach(Shader& shader) {
    logGLError();
 }
 
-void Program::link() {
-   glLinkProgram(program_id_);
-   logGLError();
-}
-
-bool Program::getLinkStatus() const {
-   GLint param;
-   glGetProgramiv(program_id_, GL_LINK_STATUS, &param);
-   return param;
-}
-
 void Program::debugLog() const {
    std::string program_log = getInfoLog();
    if(program_log.size() > 0) {
@@ -61,14 +51,14 @@ void Program::debugLog() const {
 
 std::string Program::getInfoLog() const {
    int length = 0;
-   glGetProgramiv(program_id_, GL_INFO_LOG_LENGTH, &length);
+   int written_length = 0;
+   getProgram(Program::InfoLogLength, &length);
    if(length <= 0) {
       return std::string();
    }
 
-   std::vector<char> program_log;
-   program_log.resize(length);
-   glGetProgramInfoLog(program_id_, length, &length, &program_log[0]);
+   std::vector<char> program_log(length);
+   glGetProgramInfoLog(program_id_, program_log.size(), &length, &program_log[0]);
    return std::string(&program_log[0], length);
 }
 
@@ -77,14 +67,14 @@ AttributeList Program::getActiveAttributes() const {
 
    // Get the number of active attributes
    GLint num_attributes;
-   glGetProgramiv(getProgramId(), GL_ACTIVE_ATTRIBUTES, &num_attributes);
+   getProgram(Program::ActiveAttributes, &num_attributes);
 
    // The the maximum size of the attribe names
    GLsizei max_name_length;
-   glGetProgramiv(getProgramId(), GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &max_name_length);
+   getProgram(Program::ActiveAttributeMaxLength, &max_name_length);
 
    GLsizei length;
-   GLchar name[max_name_length];
+   std::vector<GLchar> name(max_name_length);
 
    for(int index = 0; index < num_attributes; index++) {
       AttributeInfo ai;
@@ -93,7 +83,7 @@ AttributeList Program::getActiveAttributes() const {
       ai.index = index;
       glGetActiveAttrib(getProgramId(),
          index,
-         max_name_length,
+         name.size(),
          &length,
          &ai.size,
          &ai.type,
@@ -105,35 +95,106 @@ AttributeList Program::getActiveAttributes() const {
    return al;
 }
 
+UniformInfo Program::getUniformInfo(const std::string& name) const {
+   GLint index = getUniformLocation(name.c_str());
+   return getUniformInfo(index);
+}
+
+UniformInfo Program::getUniformInfo(const GLint index) const {
+   UniformInfo ui;
+   ui.index = index;
+
+   if(index < 0) {
+      WARNING("Tried to get info on shader with bad index.");
+      ui.name = "";
+      ui.size = 0;
+      ui.type = 0;
+      return ui;
+   }
+
+   // The the maximum size of the attribe name
+   GLsizei max_name_length;
+   getProgram(Program::ActiveUniformMaxLength, &max_name_length);
+
+   GLsizei length;
+   std::vector<GLchar> name(max_name_length);
+
+   // Retrive atribute data and store it in the info struct
+   glGetActiveUniform(getProgramId(),
+      index,
+      name.size(),
+      &length,
+      &ui.size,
+      &ui.type,
+      &name[0]);
+   ui.name = std::string(&name[0], length);
+   return ui;
+}
+
 UniformList Program::getActiveUniforms() const {
    UniformList ul;
 
    // Get the number of active attributes
    GLint num_uniforms;
-   glGetProgramiv(getProgramId(), GL_ACTIVE_UNIFORMS, &num_uniforms);
-
-   // The the maximum size of the attribe names
-   GLsizei max_name_length;
-   glGetProgramiv(getProgramId(), GL_ACTIVE_UNIFORM_MAX_LENGTH, &max_name_length);
-
-   GLsizei length;
-   GLchar name[max_name_length];
+   getProgram(Program::ActiveUniforms, &num_uniforms);
 
    for(int index = 0; index < num_uniforms; index++) {
-      UniformInfo ui;
-
-      // Retrive atribute data and store it in the info struct
-      ui.index = index;
-      glGetActiveUniform(getProgramId(),
-         index,
-         max_name_length,
-         &length,
-         &ui.size,
-         &ui.type,
-         &name[0]);
-      ui.name = std::string(&name[0], length);
-
-      ul.push_back(ui);
+      ul.push_back(getUniformInfo(index));
    }
    return ul;
 }
+
+UniformBlockList Program::getActiveUniformBlocks() const {
+   UniformBlockList ul;
+
+   // Get the number of active attributes
+   GLint num_uniform_blocks;
+   getProgram(Program::ActiveUniformBlocks, &num_uniform_blocks); // GL: 3.1
+
+   // The the maximum size of the attribe name
+   GLsizei max_name_length;
+   getProgram(Program::ActiveUniformBlockMaxNameLength, &max_name_length);
+   DEBUG_M("Num unifrom blocks %d", num_uniform_blocks);
+   for(int ubo_index = 0; ubo_index < num_uniform_blocks; ubo_index++) {
+      UniformBlockInfo ubi;
+
+      getActiveUniformBlock(
+         ubo_index,
+         Program::UniformBlockActiveUniforms,
+         &ubi.num_active_uniforms);
+
+      GLsizei name_length;
+      getActiveUniformBlock(
+         ubo_index,
+         Program::UniformBlockNameLength,
+         &name_length);
+
+      GLsizei written_name_length;
+      std::vector<GLchar> block_name(name_length);
+      glGetActiveUniformBlockName(
+         getProgramId(),
+         ubo_index,
+         block_name.size(),
+         &written_name_length,
+         &block_name[0]
+      );
+
+      ubi.name = std::string(&block_name[0], written_name_length);
+
+      getActiveUniformBlock(
+         ubo_index,
+         Program::UniformBlockBinding,
+         &ubi.binding);
+
+      std::vector<GLint> active_uniforms(ubi.num_active_uniforms);
+      getActiveUniformBlock(
+         ubo_index,
+         Program::UniformBlockActiveUniformIndices,
+         &active_uniforms[0]);
+
+      ul.push_back(ubi);
+   }
+   return ul;
+}
+
+} /* namespace dglw */

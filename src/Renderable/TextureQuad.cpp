@@ -37,7 +37,7 @@ void TextureQuad::initialize() {
       return;
    }
 
-   DEBUG_M("Initializing TextureQuad archtype...");
+   DEBUG_M("Initializing TextureQuad archetype...");
 
    std::vector<float> vertices {
       -1.0f,  1.0f, 0.0f,     0.0f, 0.0f, 1.0f,    0.0f, 1.0f, 

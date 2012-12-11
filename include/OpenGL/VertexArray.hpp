@@ -65,7 +65,7 @@ typedef VertexArray VAO;
 
 inline VertexArray::VertexArray() {
    assert(glGenVertexArrays);
-	glGenVertexArrays(1, &array_);
+   glGenVertexArrays(1, &array_);
    mode_ = Triangles;
    count_ = 0;
 }
