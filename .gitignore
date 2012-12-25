@@ -29,3 +29,4 @@ build/*
 program
 build/*
 tags
+CMakeLists.txt.user
