@@ -182,8 +182,6 @@ inline GLuint Program::getUniformBlockIndex(const GLchar* uniformBlockName) cons
 
 inline GLuint Program::getUniformIndices(const GLsizei uniformCount, const GLchar **uniformNames, GLuint *uniformIndices) const {
    glGetUniformIndices(getProgramId(), uniformCount, uniformNames, uniformIndices);
-   // Glew 1.6 seems to have this defined differntly to the specs :/
-   //glGetUniformIndices(uniformCount, uniformNames, uniformIndices);
 }
 
 inline void Program::getActiveUniform(const GLuint& index, const GLsizei& bufSize, GLsizei* length, GLint* size, GLenum* type, GLchar* name) const {
