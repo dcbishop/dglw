@@ -214,42 +214,43 @@ inline void Program::bindAttribLocation(const GLuint index, const GLchar* name) 
    logGLError();
 }
 
+// [TODO]: Provide fallbacks for OpenGL versions that don't support bindless
 inline void Program::uniform(const glm::mat4& matrix, const GLuint index) {
-   glProgramUniformMatrix4fv(getProgramId(), index, 1, GL_FALSE, &matrix[0][0]);
-   /*use();
+   //glProgramUniformMatrix4fv(getProgramId(), index, 1, GL_FALSE, &matrix[0][0]);
+   use();
    glUniformMatrix4fv(index, 1, GL_FALSE, &matrix[0][0]);
-   logGLError();*/
+   logGLError();
 }
 
 inline void Program::uniform(const glm::mat3& matrix, const GLuint index) {
-   glProgramUniformMatrix3fv(getProgramId(), index, 1, GL_FALSE, &matrix[0][0]);
-   /*use();
+   //glProgramUniformMatrix3fv(getProgramId(), index, 1, GL_FALSE, &matrix[0][0]);
+   use();
    glUniformMatrix3fv(index, 1, GL_FALSE, &matrix[0][0]);
-   logGLError();*/
+   logGLError();
 }
 
 inline void Program::uniform(const GLfloat& v0, const GLuint& index) {
-   glProgramUniform1f(getProgramId(), index, v0);
-   /*use();
-   glUniform1f(index, v0);*/
+   //glProgramUniform1f(getProgramId(), index, v0);
+   use();
+   glUniform1f(index, v0);
 }
 
 inline void Program::uniform(const glm::vec2& v, const GLuint& index) {
-   glProgramUniform2f(getProgramId(), index, v[0], v[1]);
-   /*use();
-   glUniform2f(index, v[0], v[1]);*/
+   //glProgramUniform2f(getProgramId(), index, v[0], v[1]);
+   use();
+   glUniform2f(index, v[0], v[1]);
 }
 
 inline void Program::uniform(const glm::vec3& v, const GLuint& index) {
-   glProgramUniform3f(getProgramId(), index, v[0], v[1], v[2]);
-   /*use();
-   glUniform3f(index, v[0], v[1], v[2]);*/
+   //glProgramUniform3f(getProgramId(), index, v[0], v[1], v[2]);
+   use();
+   glUniform3f(index, v[0], v[1], v[2]);
 }
 
 inline void Program::uniform(const glm::vec4& v, const GLuint& index) {
-   glProgramUniform4f(getProgramId(), index, v[0], v[1], v[2], v[3]);
-   /*use();
-   glUniform4f(index, v[0], v[1], v[2], v[3]);*/
+   //glProgramUniform4f(getProgramId(), index, v[0], v[1], v[2], v[3]);
+   use();
+   glUniform4f(index, v[0], v[1], v[2], v[3]);
 }
 
 inline void Program::link() {
