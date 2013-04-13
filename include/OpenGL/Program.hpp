@@ -127,7 +127,7 @@ class Program {
       GLuint getUniformBlockIndex(const GLchar* uniformBlockName) const;
       void getActiveUniformBlock(const GLuint& uniformBlockIndex, const Paramater& pname, GLint* params) const;
       void getActiveUniformBlockName(const GLuint uniformBlockIndex, const GLsizei bufSize, GLsizei* length, GLchar* uniformBlockName) const;
-      GLuint getUniformIndices(const GLsizei uniformCount, const GLchar **uniformNames, GLuint *uniformIndices) const; 
+      void getUniformIndices(const GLsizei uniformCount, const GLchar **uniformNames, GLuint *uniformIndices) const; 
       void getActiveUniform(const GLuint& index, const GLsizei& bufSize, GLsizei* length, GLint* size, GLenum* type, GLchar* name) const;
       void getActiveUniformName(const GLuint& uniformIndex, const GLsizei& bufSize, GLsizei* length, GLchar* uniformName) const;
       void getActiveUniforms(const GLsizei& uniformCount, const GLuint* uniformIndices, const Paramater& pname, GLint* params) const;
@@ -180,7 +180,7 @@ inline GLuint Program::getUniformBlockIndex(const GLchar* uniformBlockName) cons
    return glGetUniformBlockIndex(getProgramId(), uniformBlockName);
 }
 
-inline GLuint Program::getUniformIndices(const GLsizei uniformCount, const GLchar **uniformNames, GLuint *uniformIndices) const {
+inline void Program::getUniformIndices(const GLsizei uniformCount, const GLchar **uniformNames, GLuint *uniformIndices) const {
    glGetUniformIndices(getProgramId(), uniformCount, uniformNames, uniformIndices);
 }
 
