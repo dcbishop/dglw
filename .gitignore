@@ -29,4 +29,5 @@ build/*
 program
 build/*
 tags
-CMakeLists.txt.user
+CMakeLists.txt.user*
+docs/
