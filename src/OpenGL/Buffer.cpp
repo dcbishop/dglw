@@ -4,7 +4,7 @@ using namespace dglw;
 
 Buffer::Buffer() {
    logGLError();
-   assert(glGenBuffers);
+   assert(glGenBuffers != nullptr);
    glGenBuffers(1, &buffer_id_);
    DEBUG_M("Created buffer %d.", buffer_id_);
    logGLError();

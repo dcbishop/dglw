@@ -64,7 +64,7 @@ typedef std::shared_ptr<VertexArray> VertexArrayPtr;
 typedef VertexArray VAO;
 
 inline VertexArray::VertexArray() {
-   assert(glGenVertexArrays);
+   assert(glGenVertexArrays != nullptr);
    glGenVertexArrays(1, &array_);
    mode_ = Triangles;
    count_ = 0;
