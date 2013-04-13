@@ -22,6 +22,7 @@ class Application {
       virtual void setRenderFunction(VoidFunction render_function);
       virtual void setUpdateFunction(VoidFunction update_function);
       virtual void setInitializeFunction(VoidFunction initialize_function);
+      virtual void setExtensionInitFunction(VoidFunction extinit_function);
       
       virtual void setCoreProfile(const bool use_core=true);
       void setOpenGLVersion(const int major, const int minor);
@@ -45,6 +46,7 @@ class Application {
       VoidFunction render_function_;
       VoidFunction update_function_;
       VoidFunction initialize_function_;
+      VoidFunction extinit_function_;
 };
 
 inline void Application::setCoreProfile(const bool use_core_profile) {
@@ -61,6 +63,10 @@ inline void Application::setUpdateFunction(VoidFunction update_function) {
 
 inline void Application::setInitializeFunction(VoidFunction initilize_function) {
    initialize_function_ = initilize_function;
+}
+
+inline void Application::setExtensionInitFunction(VoidFunction extinit_function) {
+   extinit_function_ = extinit_function;
 }
 
 inline unsigned int Application::getWidth() {
@@ -97,6 +103,10 @@ inline void Application::initialize() {
    }
 
    // Initialize OpenGL extentions
+   if(extinit_function_) {
+      LOG("Using supplied OpenGL init function.");
+      init_list_.addInitializeFunction(extinit_function_);
+   } else {
 #ifdef USE_GLEW
    LOG("Using GLEW for OpenGL extension loading.");
    init_list_.addInitializeFunction(
@@ -111,19 +121,18 @@ inline void Application::initialize() {
       }
    );
 #elif USE_GLCOREARB
+   // [TODO]: This is only the case when using GLCOREARB_PROTOTYPES on Linux...
    DEBUG_M("Apparently using glcorearb.h for OpenGL extention loading. No initialization required.");
 #else
-   DEBUG_M("There is no OpenGL extension initializer set.");
+   WARNING("There is no OpenGL extension initializer set.");
 #endif
+   }
 
    // Log OpenGL version
    auto version_function = []() {
       if(glGetString == nullptr) {
          ERROR("glGetString is not defined!");
          return;
-      }
-      if(!glGetString) {
-         ERROR("glGetString not defined!");
       } else {
          const GLubyte* gl_version = glGetString(GL_VERSION);
          LOG("OpenGL %s", gl_version);
