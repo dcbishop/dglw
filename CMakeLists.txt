@@ -1,18 +1,24 @@
-cmake_minimum_required(VERSION 2.8)
+################################################################################
+# dglw CMake file. - The CMake script for building the project.                #
+################################################################################
+# Written in 2012 by David C. Bishop david@davidbishop.org                     #
+#                                                                              #
+# To the extent possible under law, the author(s) have dedicated all copyright #
+# and related and neighboring rights to this software to the public domain     #
+# worldwide. This software is distributed without any warranty.                #
+#                                                                              #
+# You should have received a copy of the CC0 Public Domain Dedication along    #
+# with this software. If not, see                                              #
+# <http://creativecommons.org/publicdomain/zero/1.0/>.                         #
+################################################################################
+# NOTE: The CC0 license applies only to this cmake file, not the entire        #
+# project (unless otherwise stated). I just like ensuring there is no problem  #
+# with people needing snippits of code for their CMake stuff.                  #
+################################################################################
+cmake_minimum_required(VERSION 2.6)
 
 project(dglw)
 message("Project ${PROJECT_NAME}...")
-
-
-###########################
-#  Some useful variables  #
-###########################
-set(SOURCES_SUBDIR src)
-set(SOURCE_HEADERS_SUBDIR include)
-set(SOURCES_DIRECTORY ${CMAKE_SOURCE_DIR}/${SOURCES_SUBDIR})
-set(HEADERS_DIRECTORY ${CMAKE_SOURCE_DIR}/${SOURCE_HEADERS_SUBDIR})
-string(TOLOWER ${PROJECT_NAME} LOWER_NAME)
-string(TOUPPER ${PROJECT_NAME} UPPER_NAME)
 
 
 ##############################
@@ -29,19 +35,40 @@ option( USE_GLEW        "USE_GLEW"      OFF )
 option( USE_GLCOREARB   "USE_GLCOREARB" ON  )
 option( USE_OPENGL      "USE_OPENGL"    ON  )
 
+###########################
+#  Some useful variables  #
+###########################
+set(SOURCES_SUBDIR src)
+set(HEADERS_SUBDIR include)
+set(SOURCES_DIRECTORY ${CMAKE_SOURCE_DIR}/${SOURCES_SUBDIR})
+set(HEADERS_DIRECTORY ${CMAKE_SOURCE_DIR}/${HEADERS_SUBDIR})
+set(CONFILE_FILENAME "Globals.hpp")
+set(CONFILE_SUBDIR "${HEADERS_SUBDIR}/Main")
+set(CONFILE_FILE "${PROJECT_SOURCE_DIR}/${CONFILE_SUBDIR}/${CONFILE_FILENAME}.in")
+string(TOLOWER ${PROJECT_NAME} LOWER_NAME)
+string(TOUPPER ${PROJECT_NAME} UPPER_NAME)
+set(BIN_NAME ${LOWER_NAME})
+
+# Add custom debug build compiler flags here...
+#list(APPEND CMAKE_CXX_FLAGS_DEBUG "-O3")
+
+# Detect clang++ compiler
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+   set(CMAKE_COMPILER_IS_CLANGXX_ TRUE)
+endif()
+
+#############################
+#  Set install directories  #
+#############################
 set(INSTALL_BIN_DIR bin CACHE PATH "Installation directory for executables")
 set(INSTALL_LIB_DIR lib CACHE PATH "Installation directory for dynamic libraries")
 set(INSTALL_ARCHIVE_DIR lib CACHE PATH "Installation directory for static libraries")
 set(INSTALL_INCLUDE_DIR include CACHE PATH "Installation directory for header files")
 
-# Lazy way to manually add custom debug build compiler flags here...
-#list(APPEND CMAKE_CXX_FLAGS_DEBUG "-O3")
-
 
 ###############
 #  Debugging  #
 ###############
-
 # Ensure that setting the debug option also sets the build type and visaversa
 if(Debug)
    set(CMAKE_BUILD_TYPE "Debug")
@@ -73,55 +100,44 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 #  Pass variables to the program  #
 ###################################
 
-# [TODO]: This should be done using config file with a custom .in rather than passing defines
-
-# Set the project name
-add_definitions(-DPROJECT_NAME_="${PROJECT_NAME}")
-
-# Set the defines
-# Build time define
+# Get build time
 include(GetDateTime)
 DATETIME(BUILD_DATETIME)
-add_definitions(-DBUILD_DATE_="${BUILD_DATETIME}")
 
 # Build type
 if(CMAKE_BUILD_TYPE)
-   add_definitions(-DBUILD_TYPE_="${CMAKE_BUILD_TYPE}")
    message("Build type: ${CMAKE_BUILD_TYPE}")
 else()
-   add_definitions(-DBUILD_TYPE_="Default")
    message(STATUS "Using default build type...")
 endif()
 
 # Git version info
 include(GetGitRevisionDescription)
 git_describe(GIT_DESCRIBE "--always")
-add_definitions(-DGIT_VERSION_="${GIT_DESCRIBE}")
 
-# Git SHA1 define
+# Get Git SHA1 hash
 get_git_head_revision(GIT_REFSPEC GIT_SHA1)
-add_definitions(-DGIT_SHA1_="${GIT_SHA1}")
-
-# Detect clang++ compiler
-if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-   set(CMAKE_COMPILER_IS_CLANGXX_)
-endif()
 
 # Compiler specific flags...
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_CLANGXX_)
    if(C++11)
       message(STATUS "Enabling C++11 support...")
-      list(APPEND CMAKE_CXX_FLAGS "-std=c++0x")
+      list(APPEND CMAKE_CXX_FLAGS "-std=c++11")
       add_definitions(-DUSE_CPP11_)
    endif()
 
-   list(APPEND CMAKE_CXX_FLAGS_RELEASE "-O3 -Werror")
-
+   list(APPEND CMAKE_CXX_FLAGS_RELEASE "-O3 -Werror") #-Weffc++
+   
    if(Profile)
-      message("Profiling: ON...")
+      message(STATUS "Profiling: ON...")
       list(APPEND CMAKE_CXX_FLAGS "-pg")
    endif()
 endif()
+
+# Genearte config header file
+# [TODO]: Library should provide access to compile settings...
+#configure_file("${CONFILE_FILE}" "${PROJECT_BINARY_DIR}/${CONFILE_SUBDIR}/${CONFILE_FILENAME}" @ONLY)
+#include_directories(${PROJECT_BINARY_DIR}/${CONFILE_SUBDIR})
 
 
 ######################
@@ -147,11 +163,11 @@ endif()
 #endif()
 
 # Add Boost libs
-#if(USE_BOOST)
-   find_package(Boost COMPONENTS filesystem system REQUIRED)
+#if(Boost)
+   find_package(Boost COMPONENTS filesystem system iostreams REQUIRED)
    if(Boost_FOUND)
       include_directories(${Boost_INCLUDE_DIRS})
-      add_definitions(-DHAVE_BOOST)
+      add_definitions(-DUSE_BOOST_)
       list(APPEND COMMON_LIBS ${Boost_LIBRARIES})
 
    else()
@@ -193,7 +209,7 @@ configure_file(${CONFIG_FILENAME}.in ${PROJECT_BINARY_DIR}/install/${CONFIG_FILE
 #######################
 add_library(${LOWER_NAME} ${SOURCES})
 if(Demo)
-   add_subdirectory(demo)
+   #add_subdirectory(demo)
 endif(Demo)
 
 
@@ -219,5 +235,5 @@ install(TARGETS ${LOWER_NAME} ARCHIVE DESTINATION ${INSTALL_ARCHIVE_DIR}/${LOWER
 #  Testing  #
 #############
 if(Testing)
-   add_subdirectory(tests)
+   #add_subdirectory(tests)
 endif()
