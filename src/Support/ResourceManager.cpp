@@ -71,15 +71,15 @@ ShaderPtr ResourceManager::getShader(const std::string& filename, const Shader::
    }
 
    path fullname = findShaderFile_(filename);
-   ShaderPtr shader = loadShader_(fullname, type);
+   auto shader = make_shared<Shader>(loadShader_(fullname, type));
    shaders_[filename] = shader;
    return shader;
 }
 
-shared_ptr<Shader> ResourceManager::loadShader_(const path& filename, const Shader::Type& type) {
+Shader ResourceManager::loadShader_(const path& filename, const Shader::Type& type) {
    auto source = readIntoVector_(filename);
-   shared_ptr<Shader> shader(new Shader(type, source));
-   shader->compile();
+   Shader shader { type, source };
+   shader.compile();
    return shader;
 }
 

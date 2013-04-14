@@ -32,7 +32,7 @@ class ResourceManager {
       boost::filesystem::path findShaderFile_(const boost::filesystem::path& filename);
       std::vector<char> readIntoVector_(const boost::filesystem::path& filename);
 
-      ShaderPtr loadShader_(const boost::filesystem::path& filename, const Shader::Type& type);
+      Shader loadShader_(const boost::filesystem::path& filename, const Shader::Type& type);
 
       ShaderMap shaders_;
       ProgramMap programs_;
