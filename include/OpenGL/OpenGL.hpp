@@ -5,6 +5,10 @@
 #include <vector>
 #include <unordered_map>
 
+#ifdef USE_GLEW
+#include <GL/glew.h>
+#endif
+
 #ifdef USE_GLCOREARB
 #define GLCOREARB_PROTOTYPES
 #include <GL/glcorearb.h>
