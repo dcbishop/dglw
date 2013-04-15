@@ -14,9 +14,9 @@ class GLFWApplication : public Application {
 
       void setTitle(std::string title) override;
       virtual void setSize(const int width, const int height) override;
-      void initialize_();
 
    private:
+      void initialize_();
       void update_();
       void render_();
 
