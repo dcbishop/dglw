@@ -10,10 +10,10 @@ class GLFWApplication : public Application {
       GLFWApplication();
       ~GLFWApplication();
 
-      virtual void run();
+      virtual void run() override;
 
-      void setTitle(std::string title);
-      virtual void setSize(const int width, const int height);
+      void setTitle(std::string title) override;
+      virtual void setSize(const int width, const int height) override;
       void initialize_();
 
    private:
