@@ -20,13 +20,12 @@ ResourceManager::ResourceManager() {
    if(!hardcoded_data_paths.size() > 0) {
       ERROR("Failed to set list of hardcoded data folder locations.");
    }
-   
 }
 
 // TODO: Program caching is somewhat simplified. Odd combinations of names could theoretically break it.
 // TODO: Need a function to load arbirary number/types of programs. Maybe C++11 Variadic template?
 // TODO: If program fails to load, return a fallback default one.
-ProgramPtr ResourceManager::getVFProgram(const std::string& vertfile, const std::string& fragfile) {
+const ProgramPtr& ResourceManager::getVFProgram(const std::string& vertfile, const std::string& fragfile) {
    std::string joined = vertfile + fragfile;
 
    ProgramMap::iterator itr = programs_.find(joined);
@@ -35,15 +34,15 @@ ProgramPtr ResourceManager::getVFProgram(const std::string& vertfile, const std:
    }
 
    DEBUG_M("Creating Shader Program from \"%s\" and \"%s\"", vertfile.c_str(), fragfile.c_str());
-   ProgramPtr program(new Program);
+   auto program = make_shared<Program>();
 
    // Get the vertex shader
-   ShaderPtr vertex_shader = getVertexShader(vertfile);
+   auto& vertex_shader = getVertexShader(vertfile);
    logGLError();
    vertex_shader->debugLog();
 
    // Get the fragment shader
-   ShaderPtr fragment_shader = getFragmentShader(fragfile);
+   auto& fragment_shader = getFragmentShader(fragfile);
    logGLError();
    fragment_shader->debugLog();
 
@@ -52,19 +51,20 @@ ProgramPtr ResourceManager::getVFProgram(const std::string& vertfile, const std:
    program->attach(fragment_shader);
    program->link();
 
-   programs_[joined] = program;
-   return program;
+   auto result = programs_.emplace(joined, program);
+   const ProgramPtr& retval = (*result.first).second;
+   return retval;
 }
 
-ShaderPtr ResourceManager::getVertexShader(const std::string& filename) {
+const ShaderPtr& ResourceManager::getVertexShader(const std::string& filename) {
    return getShader(filename, Shader::Vertex);
 }
 
-ShaderPtr ResourceManager::getFragmentShader(const std::string& filename) {
+const ShaderPtr& ResourceManager::getFragmentShader(const std::string& filename) {
    return getShader(filename, Shader::Fragment);
 }
 
-ShaderPtr ResourceManager::getShader(const std::string& filename, const Shader::Type& type) {
+const ShaderPtr& ResourceManager::getShader(const std::string& filename, const Shader::Type& type) {
    ShaderMap::iterator itr = shaders_.find(filename);
    if(itr != shaders_.end()) {
       return (*itr).second;
@@ -72,8 +72,9 @@ ShaderPtr ResourceManager::getShader(const std::string& filename, const Shader::
 
    path fullname = findShaderFile_(filename);
    auto shader = make_shared<Shader>(loadShader_(fullname, type));
-   shaders_[filename] = shader;
-   return shader;
+   auto result = shaders_.emplace(filename, shader);
+   const ShaderPtr& retval = (*result.first).second;
+   return retval;
 }
 
 Shader ResourceManager::loadShader_(const path& filename, const Shader::Type& type) {
@@ -106,7 +107,7 @@ path ResourceManager::findImageFile_(const path& filename) {
    path p;
 
    // Note: C++11 only! Range-based for-loop
-   for(const path &check_path : data_paths_) {
+   for(const path& check_path : data_paths_) {
       p = check_path;
       p /= "Images";
       p /= filename;
@@ -124,7 +125,7 @@ path ResourceManager::findShaderFile_(const path& filename) {
    path p;
 
    // Note: C++11 only! Range-based for-loop
-   for(const path &check_path : data_paths_) {
+   for(const path& check_path : data_paths_) {
       p = check_path;
       p /= "Shaders";
       p /= filename;

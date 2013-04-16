@@ -15,16 +15,16 @@ namespace dglw {
 typedef std::unordered_map<std::string, ShaderPtr> ShaderMap;
 typedef std::unordered_map<std::string, ProgramPtr> ProgramMap;
 
-class ResourceManager {   
+class ResourceManager {
    public:
       ResourceManager();
 
-      ProgramPtr getVFProgram(const std::string& vertfile, const std::string& fragfile);
-      ShaderPtr getShader(const std::string& filename, const dglw::Shader::Type& type);
-      ShaderPtr getVertexShader(const std::string& filename);
-      ShaderPtr getFragmentShader(const std::string& filename);
+      const ProgramPtr& getVFProgram(const std::string& vertfile, const std::string& fragfile);
+      const ShaderPtr& getShader(const std::string& filename, const dglw::Shader::Type& type);
+      const ShaderPtr& getVertexShader(const std::string& filename);
+      const ShaderPtr& getFragmentShader(const std::string& filename);
 
-      ProgramPtr getShaderProgram(const std::string& filename);
+      const ProgramPtr& getShaderProgram(const std::string& filename);
 
    private:
       std::vector<boost::filesystem::path> findDataPaths_();
