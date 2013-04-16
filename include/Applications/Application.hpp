@@ -12,19 +12,21 @@ namespace dglw {
 
 class Application {
    public:
-      Application();
       virtual void run() = 0;
       virtual void initialize();
 
-      virtual void setTitle(std::string title) = 0;
+      // Methods to set application properties
+      virtual void setTitle(const std::string& title) = 0;
       virtual void setSize(const int width, const int height) = 0;
 
+      // Methods to set function callbacks
       virtual void setRenderFunction(VoidFunction render_function);
       virtual void setUpdateFunction(VoidFunction update_function);
       virtual void setInitializeFunction(VoidFunction initialize_function);
       virtual void setExtensionInitFunction(VoidFunction extinit_function);
       
       virtual void setCoreProfile(const bool use_core=true);
+
       void setOpenGLVersion(const int major, const int minor);
       void setForwardCompat(const bool forward=true);
       void setDebugContext(const bool debug=true);
@@ -33,20 +35,21 @@ class Application {
       unsigned int getHeight();
 
    protected:
-      unsigned int width_;
-      unsigned int height_;
-      int opengl_major_;
-      int opengl_minor_;
-      char opengl_forward_compat_;
-      bool use_core_profile_;
-      bool is_initialized_;
-      bool opengl_debug_;
+      Initializer   init_list_;
 
-      Initializer init_list_;
-      VoidFunction render_function_;
-      VoidFunction update_function_;
-      VoidFunction initialize_function_;
-      VoidFunction extinit_function_;
+      unsigned int  width_                  = 640;
+      unsigned int  height_                 = 480;
+      int           opengl_major_           = -1;
+      int           opengl_minor_           = -1;
+      char          opengl_forward_compat_  = -1;
+      bool          use_core_profile_       = false;
+      bool          is_initialized_         = false;
+      bool          opengl_debug_           = false;
+
+      VoidFunction  render_function_        = nullptr;
+      VoidFunction  update_function_        = nullptr;
+      VoidFunction  initialize_function_    = nullptr;
+      VoidFunction  extinit_function_       = nullptr;
 };
 
 inline void Application::setCoreProfile(const bool use_core_profile) {
@@ -75,18 +78,6 @@ inline unsigned int Application::getWidth() {
 
 inline unsigned int Application::getHeight() {
    return height_;
-}
-
-inline Application::Application() {
-   is_initialized_ = false;
-   use_core_profile_ = false;
-   opengl_major_ = -1;
-   opengl_minor_ = -1;
-   opengl_forward_compat_ = -1;
-   width_ = 800;
-   height_ = 600;
-   opengl_debug_ = false;
-   setCoreProfile(false);
 }
 
 inline void Application::initialize() {

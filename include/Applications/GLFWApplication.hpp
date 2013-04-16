@@ -7,12 +7,11 @@ namespace dglw {
 
 class GLFWApplication : public Application {
    public:
-      GLFWApplication();
       ~GLFWApplication();
 
       virtual void run() override;
 
-      void setTitle(std::string title) override;
+      void setTitle(const std::string& title) override;
       virtual void setSize(const int width, const int height) override;
 
    private:
@@ -20,7 +19,7 @@ class GLFWApplication : public Application {
       void update_();
       void render_();
 
-      bool is_initialized_;
+      bool is_initialized_ = false;
 };
 
 } /* namespace dglw */

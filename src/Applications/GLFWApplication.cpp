@@ -8,22 +8,6 @@
 
 using namespace dglw;
 
-GLFWApplication::GLFWApplication() {
-   is_initialized_ = false;
-   use_core_profile_ = false;
-   opengl_major_ = -1;
-   opengl_minor_ = -1;
-   opengl_forward_compat_ = -1;
-   width_ = 800;
-   height_ = 600;
-#ifdef _DEBUG
-   opengl_debug_ = true;
-#else
-   opengl_debug_ = false;
-#endif
-   setCoreProfile(false);
-}
-
 GLFWApplication::~GLFWApplication() {
    glfwTerminate();
 }
@@ -99,7 +83,7 @@ void GLFWApplication::initialize_() {
    glfwSwapInterval(1);
 }
 
-void GLFWApplication::setTitle(std::string title) {
+void GLFWApplication::setTitle(const std::string& title) {
    glfwSetWindowTitle(title.c_str());
 }
 
