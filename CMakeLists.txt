@@ -15,7 +15,11 @@
 # project (unless otherwise stated). I just like ensuring there is no problem  #
 # with people needing snippits of code for their CMake stuff.                  #
 ################################################################################
-cmake_minimum_required(VERSION 2.6)
+
+# [TODO]: Demo currently builds using systemwide installed libraries, making a 
+#         compile without already having the current version installed fail.
+
+cmake_minimum_required(VERSION 2.8)
 
 project(dglw)
 message("Project ${PROJECT_NAME}...")
@@ -27,7 +31,7 @@ message("Project ${PROJECT_NAME}...")
 option( C++11           "C++11"         ON  )
 option( Profile         "Profile"       OFF )
 #option( Boost           "Boost"         ON  )
-option( Demo            "Demo"          ON  )
+option( Demo            "Demo"          OFF )
 option( Debug           "Debug"         OFF )
 option( Testing         "Testing"       ON  )
 option( USE_GLFW        "USE_GLFW"      ON  )
@@ -209,7 +213,7 @@ configure_file(${CONFIG_FILENAME}.in ${PROJECT_BINARY_DIR}/install/${CONFIG_FILE
 #######################
 add_library(${LOWER_NAME} ${SOURCES})
 if(Demo)
-   #add_subdirectory(demo)
+   add_subdirectory(demo)
 endif(Demo)
 
 
