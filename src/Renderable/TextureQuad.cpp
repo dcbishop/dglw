@@ -1,5 +1,6 @@
 #include "Renderable/TextureQuad.hpp"
 
+using namespace std;
 using namespace dglw;
 
 bool TextureQuad::is_initialized_ = false;
@@ -48,8 +49,8 @@ void TextureQuad::initialize() {
        1.0f,  1.0f, 0.0f,     0.0f, 0.0f, 1.0f,    1.0f, 1.0f,
    };
    
-   array_ = VertexArrayPtr(new VertexArray);
-   buffer_ = BufferPtr(new Buffer);
+   array_ = make_shared<VertexArray>();
+   buffer_ = make_shared<Buffer>();
 
    array_->bind();
    buffer_->bind();
@@ -74,8 +75,8 @@ void TextureQuad::deinitialize() {
    buffer_->unbind();
    array_->unbind();
    //program_ = ProgramPtr();
-   array_ = VertexArrayPtr();
-   buffer_ = BufferPtr();
+   array_ = nullptr;
+   buffer_ = nullptr;
 }
 
 void TextureQuad::render() {
