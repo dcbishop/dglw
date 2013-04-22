@@ -12,6 +12,7 @@
 #include <OpenGL/VertexArray.hpp>
 #include <Applications/Application.hpp>
 #include <Applications/GLFWApplication.hpp>
+#include <Applications/QTApplication.hpp>
 #include <Renderable/Cube.hpp>
 #include <Renderable/TextureQuad.hpp>
 #include <Support/ResourceManager.hpp>

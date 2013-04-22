@@ -1,4 +1,5 @@
-﻿#include "Applications/GLFWApplication.hpp"
+#ifdef USE_GLFW
+#include "Applications/GLFWApplication.hpp"
 
 #include "dglw.hpp"
 #include <GL/glfw.h>
@@ -114,3 +115,5 @@ void GLFWApplication::render_() {
    render_function_();
    glfwSwapBuffers();
 }
+
+#endif /* USE_GLFW */

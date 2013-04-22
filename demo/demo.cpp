@@ -15,8 +15,14 @@ void loadExt() {
 }
 
 int main(int argc, char* argv[]) {
+
+#ifdef USE_GLFW
     GLFWApplication app;
-    
+#endif
+#ifdef USE_QT
+    QTApplication app {argc, argv};
+#endif
+
     auto rfunc = std::bind(&render);
     app.setRenderFunction(rfunc);
     app.setExtensionInitFunction(std::bind(&loadExt));

@@ -35,6 +35,7 @@ option( Demo            "Demo"          OFF )
 option( Debug           "Debug"         OFF )
 option( Testing         "Testing"       ON  )
 option( USE_GLFW        "USE_GLFW"      ON  )
+option( USE_QT          "USE_QT"        ON  )
 option( USE_GLEW        "USE_GLEW"      OFF )
 option( USE_GLCOREARB   "USE_GLCOREARB" ON  )
 option( USE_OPENGL      "USE_OPENGL"    ON  )
@@ -51,7 +52,7 @@ set(CONFILE_SUBDIR "${HEADERS_SUBDIR}/Main")
 set(CONFILE_FILE "${PROJECT_SOURCE_DIR}/${CONFILE_SUBDIR}/${CONFILE_FILENAME}.in")
 string(TOLOWER ${PROJECT_NAME} LOWER_NAME)
 string(TOUPPER ${PROJECT_NAME} UPPER_NAME)
-set(BIN_NAME ${LOWER_NAME})
+set(LIB_NAME ${LOWER_NAME})
 
 # Add custom debug build compiler flags here...
 #list(APPEND CMAKE_CXX_FLAGS_DEBUG "-O3")
@@ -60,6 +61,9 @@ set(BIN_NAME ${LOWER_NAME})
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
    set(CMAKE_COMPILER_IS_CLANGXX_ TRUE)
 endif()
+
+# Generate compile_commands.json, useful for tools...
+set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 
 #############################
 #  Set install directories  #
@@ -184,6 +188,26 @@ find_package(dglw REQUIRED)
 include_directories(${DGLW_INCLUDE_DIRS})
 list(APPEND COMMON_LIBS ${DGLW_LIBRARIES})
 
+# QT
+if(USE_QT)
+   find_package(Qt5Core)
+   find_package(Qt5Widgets)
+   find_package(Qt5Gui)
+   find_package(Qt5OpenGL)
+
+   if(Qt5Core_FOUND AND Qt5Widgets_FOUND AND Qt5Gui_FOUND AND Qt5OpenGL_FOUND)
+      set(HAVE_QT TRUE)
+   endif()
+endif()
+
+if(USE_GLFW)
+   find_package(GLFW)
+   if(GLFW_FOUND)
+      set(HAVE_GLFW TRUE)
+   endif()
+endif()
+
+
 ##########################################
 #  Register the libraries the CMake way  #
 ##########################################
@@ -211,11 +235,24 @@ configure_file(${CONFIG_FILENAME}.in ${PROJECT_BINARY_DIR}/install/${CONFIG_FILE
 #######################
 #  Build the project  #
 #######################
-add_library(${LOWER_NAME} ${SOURCES})
+add_library(${LIB_NAME} ${SOURCES})
+
+if(HAVE_GLFW)
+   list(APPEND COMMON_DEFS "USE_GLFW")
+endif()
+
+if(HAVE_QT)
+   set(CMAKE_AUTOMOC TRUE)
+   list(APPEND COMMON_LIBS ${QT_LIBRARIES})
+   list(APPEND COMMON_DEFS "USE_QT")
+   qt5_use_modules(${LIB_NAME} Widgets Gui OpenGL)
+endif()
+
+set_target_properties(${LIB_NAME} PROPERTIES COMPILE_DEFINITIONS "${COMMON_DEFS}")
+
 if(Demo)
    add_subdirectory(demo)
 endif(Demo)
-
 
 #############
 #  Install  #
