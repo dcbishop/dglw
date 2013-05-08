@@ -1,6 +1,7 @@
 #ifdef USE_QT
 
 #include "Applications/QTWidgets/GLWidget.hpp"
+using namespace dglw;
 
 void GLWidget::initializeGL() {
    initialize_function();

@@ -95,8 +95,8 @@ endif()
 #############################
 # Note this is the 'bad' way of doing this, but the recommended 
 # alternative is to manually keep a list of *all* source files =/
-file(GLOB_RECURSE SOURCES "${SOURCES_DIRECTORY}/*.cpp")
-file(GLOB_RECURSE HEADERS "${HEADERS_DIRECTORY}/*.h*")
+file(GLOB_RECURSE SOURCES ${SOURCES_DIRECTORY}/*.cpp")
+file(GLOB_RECURSE HEADERS ${HEADERS_DIRECTORY}/*.h*")
 
 include_directories("${HEADERS_DIRECTORY}/")
 
@@ -246,6 +246,7 @@ if(HAVE_QT)
    list(APPEND COMMON_LIBS ${QT_LIBRARIES})
    list(APPEND COMMON_DEFS "USE_QT")
    qt5_use_modules(${LIB_NAME} Widgets Gui OpenGL)
+   include_directories(${QtWidgets_INCLUDE_DIRS})
 endif()
 
 set_target_properties(${LIB_NAME} PROPERTIES COMPILE_DEFINITIONS "${COMMON_DEFS}")

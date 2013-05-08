@@ -1,5 +1,5 @@
-#ifndef WHITEGAME_APPLICATIONS_QTAPPLICAION_HPP_
-#define WHITEGAME_APPLICATIONS_QTAPPLICAION_HPP_
+#ifndef DGLW_APPLICATIONS_QTAPPLICAION_HPP_
+#define DGLW_APPLICATIONS_QTAPPLICAION_HPP_
 
 #ifdef USE_GLEW
 #include <GL/glew.h>
@@ -12,9 +12,12 @@
 class QApplication;
 class QWidget;
 class QMainWindow;
-class GLWidget;
 
-class QTApplication : public dglw::Application {
+#include "Applications/QTWidgets/GLWidget.hpp"
+
+namespace dglw {
+
+class QTApplication : public Application {
    public:
       QTApplication();
       QTApplication(int& argc, char* argv[]);
@@ -30,4 +33,6 @@ class QTApplication : public dglw::Application {
       std::unique_ptr<GLWidget> gl;
 };
 
-#endif /* WHITEGAME_APPLICATIONS_QTAPPLICAION_HPP_ */
+} /* namespace dglw */
+
+#endif /* DGLW_APPLICATIONS_QTAPPLICAION_HPP_ */

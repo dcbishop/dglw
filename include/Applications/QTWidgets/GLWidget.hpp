@@ -1,10 +1,12 @@
-#ifndef WHITEGAME_APPLICATIONS_GLWIDGET_HPP_
-#define WHITEGAME_APPLICATIONS_GLWIDGET_HPP_
+#ifndef DGLW_APPLICATIONS_GLWIDGET_HPP_
+#define DGLW_APPLICATIONS_GLWIDGET_HPP_
 
 #include <QGLWidget>
 #include "Support/Initializer.hpp"
 
 #include "console.h"
+
+namespace dglw {
 
 class GLWidget : public QGLWidget {
    Q_OBJECT
@@ -30,5 +32,7 @@ class GLWidget : public QGLWidget {
       VoidFunction initialize_function  = nullptr;
       VoidFunction render_function      = nullptr;
 };
+
+} /* namespace dglw */
 
 #endif /* WHITEGAME_APPLICATIONS_GLWIDGET_HPP_ */
