@@ -7,13 +7,12 @@
 
 #include <memory>
 
-#include <Applications/Application.hpp>
+#include <dglw/Applications/Application.hpp>
 
 class QApplication;
 class QWidget;
-class QMainWindow;
 
-#include "Applications/QTWidgets/GLWidget.hpp"
+#include <dglw/Applications/QTWidgets/GLWidget.hpp>
 
 namespace dglw {
 
@@ -27,9 +26,10 @@ class QTApplication : public Application {
       virtual void setTitle(const std::string& title) override;
       virtual void setSize(const int width, const int height) override;
       virtual void setRenderFunction(VoidFunction render_function) override;
+      virtual void setResizeFunction(std::function<void(int, int)> resize_function);
 
    private:
-      std::unique_ptr<QApplication> qapp;;
+      std::unique_ptr<QApplication> qapp;
       std::unique_ptr<GLWidget> gl;
 };
 

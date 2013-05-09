@@ -1,15 +1,17 @@
-#include "Support/ResourceManager.hpp"
+#include <dglw/Support/ResourceManager.hpp>
+#include <dglw/Support/Support.hpp>
 
 using namespace dglw;
 
 #include <fstream>
 
-#include "console.h"
+#include <dglw/console.h>
 
 using namespace boost::filesystem;
 using namespace std;
 
 namespace dglw {
+   
 
 // [TODO]: Boost won't expand ~ to the home directory. Consider getenv("HOME").
 ResourceManager::ResourceManager() {
@@ -34,15 +36,15 @@ const ProgramPtr& ResourceManager::getVFProgram(const std::string& vertfile, con
    }
 
    DEBUG_M("Creating Shader Program from \"%s\" and \"%s\"", vertfile.c_str(), fragfile.c_str());
-   auto program = make_shared<Program>();
+   const auto program = make_shared<Program>();
 
    // Get the vertex shader
-   auto& vertex_shader = getVertexShader(vertfile);
+   const auto& vertex_shader = getVertexShader(vertfile);
    logGLError();
    vertex_shader->debugLog();
 
    // Get the fragment shader
-   auto& fragment_shader = getFragmentShader(fragfile);
+   const auto& fragment_shader = getFragmentShader(fragfile);
    logGLError();
    fragment_shader->debugLog();
 
@@ -56,31 +58,31 @@ const ProgramPtr& ResourceManager::getVFProgram(const std::string& vertfile, con
    return retval;
 }
 
-const ShaderPtr& ResourceManager::getVertexShader(const std::string& filename) {
+const shared_ptr<Shader>& ResourceManager::getVertexShader(const std::string& filename) {
    return getShader(filename, Shader::Vertex);
 }
 
-const ShaderPtr& ResourceManager::getFragmentShader(const std::string& filename) {
+const shared_ptr<Shader>& ResourceManager::getFragmentShader(const std::string& filename) {
    return getShader(filename, Shader::Fragment);
 }
 
-const ShaderPtr& ResourceManager::getShader(const std::string& filename, const Shader::Type& type) {
+const shared_ptr<Shader>& ResourceManager::getShader(const std::string& filename, const Shader::Type& type) {
    ShaderMap::iterator itr = shaders_.find(filename);
    if(itr != shaders_.end()) {
       return (*itr).second;
    }
 
    path fullname = findShaderFile_(filename);
-   auto shader = make_shared<Shader>(loadShader_(fullname, type));
-   auto result = shaders_.emplace(filename, shader);
-   const ShaderPtr& retval = (*result.first).second;
+   auto shader = loadShader_(fullname, type);
+   auto result = shaders_.emplace(filename, move(shader));
+   const shared_ptr<Shader>& retval = (*result.first).second;
    return retval;
 }
 
-Shader ResourceManager::loadShader_(const path& filename, const Shader::Type& type) {
+unique_ptr<Shader> ResourceManager::loadShader_(const path& filename, const Shader::Type& type) {
    auto source = readIntoVector_(filename);
-   Shader shader { type, source };
-   shader.compile();
+   auto shader = make_unique<Shader>( type, source );
+   shader->compile();
    return shader;
 }
 

@@ -1,13 +1,13 @@
 #ifdef USE_QT
 
-#include "Applications/QTApplication.hpp"
+#include <dglw/Applications/QTApplication.hpp>
 
 #include <QApplication>
 #include <QMainWindow>
 #include <QGLWidget>
 #include <QTranslator>
 
-#include "Applications/QTWidgets/GLWidget.hpp"
+#include <dglw/Applications/QTWidgets/GLWidget.hpp>
 #include <dglw/Support/Support.hpp>
 using namespace std;
 using namespace dglw;
@@ -53,6 +53,11 @@ void QTApplication::setSize(const int width, const int height) {
 void QTApplication::setRenderFunction(VoidFunction render_function) {
    Application::setRenderFunction(render_function);
    gl->setRenderFunction(render_function);
+}
+
+void QTApplication::setResizeFunction(std::function<void(int, int)> resize_function) {
+   Application::setResizeFunction(resize_function);
+   gl->setResizeFunction(resize_function);
 }
 
 #endif /* USE_QT */

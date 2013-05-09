@@ -1,14 +1,24 @@
 #ifdef USE_QT
 
-#include "Applications/QTWidgets/GLWidget.hpp"
+#include <dglw/Applications/QTWidgets/GLWidget.hpp>
 using namespace dglw;
+
+#include <QResizeEvent>
 
 void GLWidget::initializeGL() {
    initialize_function();
 }
 
-void GLWidget::resizeGL(int w, int h) {
+void GLWidget::resizeEvent(QResizeEvent* event) {
+   int width = event->size().width();
+   int height = event->size().height();
 
+   if(resize_function) {
+      resize_function(width, height);
+   }
+}
+
+void GLWidget::resizeGL(int w, int h) {
 }
 
 void GLWidget::paintGL() {

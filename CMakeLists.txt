@@ -95,8 +95,8 @@ endif()
 #############################
 # Note this is the 'bad' way of doing this, but the recommended 
 # alternative is to manually keep a list of *all* source files =/
-file(GLOB_RECURSE SOURCES ${SOURCES_DIRECTORY}/*.cpp")
-file(GLOB_RECURSE HEADERS ${HEADERS_DIRECTORY}/*.h*")
+file(GLOB_RECURSE SOURCES ${SOURCES_DIRECTORY}/*.cpp)
+file(GLOB_RECURSE HEADERS ${HEADERS_DIRECTORY}/*.h*)
 
 include_directories("${HEADERS_DIRECTORY}/")
 
@@ -263,7 +263,7 @@ endif(Demo)
 foreach(FILE ${HEADERS})
    file(RELATIVE_PATH REL_FILE ${HEADERS_DIRECTORY}/ ${FILE})
    get_filename_component(REL_PATH ${REL_FILE} PATH)
-   install(FILES ${HEADERS_DIRECTORY}/${REL_FILE} DESTINATION ${INSTALL_INCLUDE_DIR}/${LOWER_NAME}/${REL_PATH} COMPONENT dev)
+   install(FILES ${HEADERS_DIRECTORY}/${REL_FILE} DESTINATION ${INSTALL_INCLUDE_DIR}/${REL_PATH} COMPONENT dev)
 endforeach()
 
 # Install the <Project>Config.cmake file

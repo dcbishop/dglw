@@ -1,4 +1,4 @@
-#include "OpenGL/Shader.hpp"
+#include <dglw/OpenGL/Shader.hpp>
 
 using namespace dglw;
 

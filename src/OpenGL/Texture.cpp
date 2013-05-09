@@ -1,4 +1,4 @@
-#include "OpenGL/Texture.hpp"
+#include <dglw/OpenGL/Texture.hpp>
 
 using namespace dglw;
 

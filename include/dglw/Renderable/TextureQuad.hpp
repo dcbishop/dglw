@@ -1,7 +1,7 @@
 #ifndef DGLW_TEXTUREQUAD_HPP_
 #define DGLW_TEXTUREQUAD_HPP_
 
-#include "dglw.hpp"
+#include <dglw/dglw.hpp>
 
 namespace dglw {
 

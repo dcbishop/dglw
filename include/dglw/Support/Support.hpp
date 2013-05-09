@@ -13,4 +13,4 @@ std::unique_ptr<T> make_unique( Args&& ...args )
 
 } /* namespace dglw */
 
-#endif SUPPORT_HPP_
+#endif /* SUPPORT_HPP_ */

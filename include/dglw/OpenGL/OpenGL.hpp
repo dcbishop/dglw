@@ -24,7 +24,7 @@
 
 #include <glm/glm.hpp>
 
-#include "console.h"
+#include <dglw/console.h>
 
 #ifdef _DEBUG
 #define logGLError() for(long err = glGetError(); err; err = glGetError()) { ERROR("OpenGL: %d", /*(char*)gluErrorString(*/err/*)*/); }

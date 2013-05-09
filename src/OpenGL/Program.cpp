@@ -1,7 +1,7 @@
-#include "OpenGL/Program.hpp"
-#include "Support/UniformBind.hpp"
+#include <dglw/OpenGL/Program.hpp>
+#include <dglw/Support/UniformBind.hpp>
 
-#include "console.h"
+#include <dglw/console.h>
 
 namespace dglw {
 

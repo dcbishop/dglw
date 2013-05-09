@@ -3,10 +3,10 @@
 
 #include <string>
 
-#include "Support/Initializer.hpp"
-#include "OpenGL/OpenGL.hpp"
-#include "common.hpp"
-#include "console.h"
+#include <dglw/Support/Initializer.hpp>
+#include <dglw/OpenGL/OpenGL.hpp>
+#include <dglw/common.hpp>
+#include <dglw/console.h>
 
 namespace dglw {
 
@@ -24,6 +24,7 @@ class Application {
       virtual void setUpdateFunction(VoidFunction update_function);
       virtual void setInitializeFunction(VoidFunction initialize_function);
       virtual void setExtensionInitFunction(VoidFunction extinit_function);
+      virtual void setResizeFunction(std::function<void(int, int)> resize_function);
       
       virtual void setCoreProfile(const bool use_core=true);
 
@@ -50,6 +51,7 @@ class Application {
       VoidFunction  update_function_        = nullptr;
       VoidFunction  initialize_function_    = nullptr;
       VoidFunction  extinit_function_       = nullptr;
+      std::function<void(int, int)> resize_function_ = nullptr;
 };
 
 inline void Application::setCoreProfile(const bool use_core_profile) {
@@ -70,6 +72,10 @@ inline void Application::setInitializeFunction(VoidFunction initilize_function) 
 
 inline void Application::setExtensionInitFunction(VoidFunction extinit_function) {
    extinit_function_ = extinit_function;
+}
+
+inline void Application::setResizeFunction(std::function<void(int, int)> resize_function) {
+   resize_function_ = resize_function;
 }
 
 inline unsigned int Application::getWidth() {

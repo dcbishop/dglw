@@ -1,4 +1,4 @@
-#include "Renderable/TextureQuad.hpp"
+#include <dglw/Renderable/TextureQuad.hpp>
 
 using namespace std;
 using namespace dglw;

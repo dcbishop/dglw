@@ -1,4 +1,4 @@
-#include "Renderable/Cube.hpp"
+#include <dglw/Renderable/Cube.hpp>
 
 #include <vector>
 using std::vector;
@@ -7,7 +7,7 @@ using glm::vec3;
 
 
 
-#include "console.h"
+#include <dglw/console.h>
 
 namespace dglw {
 

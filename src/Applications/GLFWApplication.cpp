@@ -1,11 +1,11 @@
 #ifdef USE_GLFW
-#include "Applications/GLFWApplication.hpp"
+#include <dglw/Applications/GLFWApplication.hpp>
 
-#include "dglw.hpp"
+#include <dglw/dglw.hpp>
 #include <GL/glfw.h>
 
-#include "console.h"
-#include "Support/Initializer.hpp"
+#include <dglw/console.h>
+#include <dglw/Support/Initializer.hpp>
 
 using namespace dglw;
 

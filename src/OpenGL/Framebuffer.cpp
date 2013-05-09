@@ -1,6 +1,6 @@
-#include "OpenGL/Framebuffer.hpp"
+#include <dglw/OpenGL/Framebuffer.hpp>
 
-#include "OpenGL/Texture.hpp"
+#include <dglw/OpenGL/Texture.hpp>
 
 using namespace dglw;
 
