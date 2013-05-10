@@ -177,16 +177,10 @@ endif()
       include_directories(${Boost_INCLUDE_DIRS})
       add_definitions(-DUSE_BOOST_)
       list(APPEND COMMON_LIBS ${Boost_LIBRARIES})
-
    else()
       message(FATAL_ERROR "Boost not found!")
    endif()
 #endif()
-
-# Add dglw libs
-find_package(dglw REQUIRED)
-include_directories(${DGLW_INCLUDE_DIRS})
-list(APPEND COMMON_LIBS ${DGLW_LIBRARIES})
 
 # QT
 if(USE_QT)
@@ -242,14 +236,12 @@ if(HAVE_GLFW)
 endif()
 
 if(HAVE_QT)
-   set(CMAKE_AUTOMOC TRUE)
    list(APPEND COMMON_LIBS ${QT_LIBRARIES})
    list(APPEND COMMON_DEFS "USE_QT")
-   qt5_use_modules(${LIB_NAME} Widgets Gui OpenGL)
-   include_directories(${QtWidgets_INCLUDE_DIRS})
+   qt5_use_modules(${LIB_NAME} Core Widgets Gui OpenGL)
 endif()
 
-set_target_properties(${LIB_NAME} PROPERTIES COMPILE_DEFINITIONS "${COMMON_DEFS}")
+set_target_properties(${LIB_NAME} PROPERTIES COMPILE_DEFINITIONS "${COMMON_DEFS}" AUTOMOC TRUE)
 
 if(Demo)
    add_subdirectory(demo)
