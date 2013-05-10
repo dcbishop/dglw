@@ -99,6 +99,7 @@ file(GLOB_RECURSE SOURCES ${SOURCES_DIRECTORY}/*.cpp)
 file(GLOB_RECURSE HEADERS ${HEADERS_DIRECTORY}/*.h*)
 
 include_directories("${HEADERS_DIRECTORY}/dglw/")
+include_directories("${SOURCES_DIRECTORY}/")
 
 # CMake modules
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
@@ -238,6 +239,7 @@ endif()
 if(HAVE_QT)
    list(APPEND COMMON_LIBS ${QT_LIBRARIES})
    list(APPEND COMMON_DEFS "USE_QT")
+   set(CMAKE_INCLUDE_CURRENT_DIR ON)
    qt5_use_modules(${LIB_NAME} Core Widgets Gui OpenGL)
 endif()
 
