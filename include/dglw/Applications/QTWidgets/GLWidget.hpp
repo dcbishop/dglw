@@ -2,9 +2,9 @@
 #define DGLW_APPLICATIONS_GLWIDGET_HPP_
 
 #include <QGLWidget>
-#include <dglw/Support/Initializer.hpp>
+#include "Support/Initializer.hpp"
 
-#include <dglw/console.h>
+#include "console.h"
 
 namespace dglw {
 

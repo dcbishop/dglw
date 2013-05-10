@@ -2,7 +2,7 @@
 #define DGLW_INITILIZER_HPP_
 
 #include <vector>
-#include <dglw/common.hpp>
+#include "common.hpp"
 
 namespace dglw {
 

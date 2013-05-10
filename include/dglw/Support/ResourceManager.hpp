@@ -8,7 +8,7 @@
 #include <tuple> 
 #include <boost/filesystem.hpp>
 
-#include <dglw/dglw.hpp>
+#include "dglw.hpp"
 
 namespace dglw {
 using namespace std;

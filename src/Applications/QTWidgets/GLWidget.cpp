@@ -1,6 +1,6 @@
 #ifdef USE_QT
 
-#include <dglw/Applications/QTWidgets/GLWidget.hpp>
+#include "Applications/QTWidgets/GLWidget.hpp"
 using namespace dglw;
 
 #include <QResizeEvent>

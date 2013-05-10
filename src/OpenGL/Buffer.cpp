@@ -1,4 +1,4 @@
-#include <dglw/OpenGL/Buffer.hpp>
+#include "OpenGL/Buffer.hpp"
 
 using namespace dglw;
 

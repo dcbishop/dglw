@@ -1,11 +1,11 @@
-#include <dglw/Support/ResourceManager.hpp>
-#include <dglw/Support/Support.hpp>
+#include "Support/ResourceManager.hpp"
+#include "Support/Support.hpp"
 
 using namespace dglw;
 
 #include <fstream>
 
-#include <dglw/console.h>
+#include "console.h"
 
 using namespace boost::filesystem;
 using namespace std;

@@ -7,11 +7,11 @@
 
 #include <memory>
 
-#include <dglw/Applications/Application.hpp>
+#include "Applications/Application.hpp"
 
 class QApplication;
 
-#include <dglw/Applications/QTWidgets/GLWidget.hpp>
+#include "Applications/QTWidgets/GLWidget.hpp"
 
 namespace dglw {
 

@@ -1,4 +1,4 @@
-#include <dglw/OpenGL/OpenGL.hpp>
+#include "OpenGL/OpenGL.hpp"
 
 using namespace dglw;
 

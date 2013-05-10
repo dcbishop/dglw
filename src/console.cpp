@@ -11,7 +11,7 @@
  * [TODO]: Selecting unicode/colour should be dooable runtime, not #defined.
  */
 
-#include <dglw/console.h>
+#include "console.h"
 
 #include <stdlib.h>
 #include <stdio.h>

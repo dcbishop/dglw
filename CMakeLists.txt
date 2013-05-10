@@ -98,7 +98,7 @@ endif()
 file(GLOB_RECURSE SOURCES ${SOURCES_DIRECTORY}/*.cpp)
 file(GLOB_RECURSE HEADERS ${HEADERS_DIRECTORY}/*.h*)
 
-include_directories("${HEADERS_DIRECTORY}/")
+include_directories("${HEADERS_DIRECTORY}/dglw/")
 
 # CMake modules
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)

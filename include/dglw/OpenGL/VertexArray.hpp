@@ -5,8 +5,8 @@
 #include <stdexcept>
 
 
-#include <dglw/OpenGL/OpenGL.hpp>
-#include <dglw/console.h>
+#include "OpenGL/OpenGL.hpp"
+#include "console.h"
 
 namespace dglw {
 

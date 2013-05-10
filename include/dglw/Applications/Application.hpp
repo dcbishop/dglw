@@ -3,10 +3,10 @@
 
 #include <string>
 
-#include <dglw/Support/Initializer.hpp>
-#include <dglw/OpenGL/OpenGL.hpp>
-#include <dglw/common.hpp>
-#include <dglw/console.h>
+#include "Support/Initializer.hpp"
+#include "OpenGL/OpenGL.hpp"
+#include "common.hpp"
+#include "console.h"
 
 namespace dglw {
 

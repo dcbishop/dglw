@@ -1,7 +1,7 @@
 #ifndef DGLW_UNIFORMBIND_HPP_
 #define DGLW_UNIFORMBIND_HPP_
 
-#include <dglw/OpenGL/Program.hpp>
+#include "OpenGL/Program.hpp"
 
 namespace dglw {
 

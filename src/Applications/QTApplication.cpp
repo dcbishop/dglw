@@ -1,14 +1,14 @@
 #ifdef USE_QT
 
-#include <dglw/Applications/QTApplication.hpp>
+#include "Applications/QTApplication.hpp"
 
 #include <QApplication>
 #include <QMainWindow>
 #include <QGLWidget>
 #include <QTranslator>
 
-#include <dglw/Applications/QTWidgets/GLWidget.hpp>
-#include <dglw/Support/Support.hpp>
+#include "Applications/QTWidgets/GLWidget.hpp"
+#include "Support/Support.hpp"
 using namespace std;
 using namespace dglw;
 
