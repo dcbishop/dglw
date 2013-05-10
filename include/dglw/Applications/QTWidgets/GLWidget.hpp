@@ -12,26 +12,16 @@ class GLWidget : public QGLWidget {
    Q_OBJECT
 
    public:
-      GLWidget(QWidget *parent = 0) : QGLWidget(parent) {}
-
-      void setInitializeFunction(VoidFunction initialize_function) {
-         DEBUG_M("GLWidget::setInitializeFunction");
-         this->initialize_function = initialize_function;
-      }
-
-      virtual void setRenderFunction(VoidFunction render_function) {
-         this->render_function = render_function;
-      }
-
-      virtual void setResizeFunction(std::function<void(int, int)> resize_function) {
-         this->resize_function = resize_function;
-      }
+      GLWidget(QWidget *parent = 0);
+      void setInitializeFunction(VoidFunction initialize_function);
+      void setRenderFunction(VoidFunction render_function);
+      void setResizeFunction(std::function<void(int, int)> resize_function);
 
    protected:
-      void initializeGL();
-      void resizeGL(int w, int h);
-      virtual void resizeEvent(QResizeEvent* event);
-      void paintGL();
+      void initializeGL() override;
+      void resizeGL(int w, int h) override;
+      void resizeEvent(QResizeEvent* event) override;
+      void paintGL() override;
 
    private:
       VoidFunction initialize_function              = nullptr;

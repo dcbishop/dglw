@@ -10,7 +10,6 @@
 #include <dglw/Applications/Application.hpp>
 
 class QApplication;
-class QWidget;
 
 #include <dglw/Applications/QTWidgets/GLWidget.hpp>
 
@@ -26,7 +25,7 @@ class QTApplication : public Application {
       virtual void setTitle(const std::string& title) override;
       virtual void setSize(const int width, const int height) override;
       virtual void setRenderFunction(VoidFunction render_function) override;
-      virtual void setResizeFunction(std::function<void(int, int)> resize_function);
+      virtual void setResizeFunction(std::function<void(int, int)> resize_function) override;
 
    private:
       std::unique_ptr<QApplication> qapp;
