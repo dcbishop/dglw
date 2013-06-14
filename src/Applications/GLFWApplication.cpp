@@ -9,6 +9,8 @@
 
 using namespace dglw;
 
+std::function<void(int, int)> GLFWApplication::static_resize_function_ = nullptr;
+
 GLFWApplication::~GLFWApplication() {
    glfwTerminate();
 }
@@ -22,6 +24,13 @@ void GLFWApplication::setSize(const int width, const int height) {
    }
 }
 
+void GLFWApplication::resize_(int width, int height) {
+   DEBUG_M("Resize...");
+   if(static_resize_function_) {
+      static_resize_function_(width, height);
+   }
+}
+
 void GLFWApplication::run() {
    DEBUG_M("Initializing GLFWApplication...");
 
@@ -29,7 +38,8 @@ void GLFWApplication::run() {
    
    init_list_.addInitializeFunction(std::bind(&dglw::GLFWApplication::initialize_, this)); //Initialize GLFW
    Application::initialize();
-   
+   glfwSetWindowSizeCallback(&resize_);
+
    while(running) {
       update_();
       render_();
@@ -116,4 +126,8 @@ void GLFWApplication::render_() {
    glfwSwapBuffers();
 }
 
+void GLFWApplication::setResizeFunction(std::function<void(int, int)> resize_function) {
+   static_resize_function_ = resize_function;
+   Application::setResizeFunction(resize_function);
+}
 #endif /* USE_GLFW */

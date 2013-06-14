@@ -1,7 +1,7 @@
 #include <iostream>
 #include <glm/glm.hpp>
 
-#include "dglw.hpp"
+#include <dglw/dglw.hpp>
 using namespace dglw;
 
 Cube cube;
