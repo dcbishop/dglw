@@ -91,6 +91,7 @@ void GLFWApplication::initialize_() {
       glfwTerminate();
       return;
    }
+   glfwMakeContextCurrent(window_id);
 
    glfwSwapInterval(1);
 }
