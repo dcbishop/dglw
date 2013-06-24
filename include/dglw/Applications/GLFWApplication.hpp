@@ -3,6 +3,8 @@
 
 #include "Application.hpp"
 
+#include <GLFW/glfw3.h>
+
 namespace dglw {
 
 class GLFWApplication : public Application {
@@ -16,13 +18,14 @@ class GLFWApplication : public Application {
       void setResizeFunction(std::function<void(int, int)> resize_function);
 
    private:
-      static void resize_(int width, int height);
+      static void resize_(GLFWwindow* window, int width, int height);
       void initialize_();
       void update_();
       void render_();
 
       bool is_initialized_ = false;
       static std::function<void(int, int)> static_resize_function_;
+      GLFWwindow* window_id;
 };
 
 } /* namespace dglw */

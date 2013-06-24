@@ -2,7 +2,7 @@
 #include "Applications/GLFWApplication.hpp"
 
 #include "dglw.hpp"
-#include <GL/glfw.h>
+#include <GLFW/glfw3.h>
 
 #include "console.h"
 #include "Support/Initializer.hpp"
@@ -20,11 +20,11 @@ void GLFWApplication::setSize(const int width, const int height) {
    height_ = height;
 
    if(is_initialized_) {
-      glfwSetWindowSize(width, height);
+      glfwSetWindowSize(window_id, width, height);
    }
 }
 
-void GLFWApplication::resize_(int width, int height) {
+void GLFWApplication::resize_(GLFWwindow* window, int width, int height) {
    DEBUG_M("Resize...");
    if(static_resize_function_) {
       static_resize_function_(width, height);
@@ -38,7 +38,8 @@ void GLFWApplication::run() {
    
    init_list_.addInitializeFunction(std::bind(&dglw::GLFWApplication::initialize_, this)); //Initialize GLFW
    Application::initialize();
-   glfwSetWindowSizeCallback(&resize_);
+
+   glfwSetWindowSizeCallback(window_id, &resize_);
 
    while(running) {
       update_();
@@ -61,41 +62,41 @@ void GLFWApplication::initialize_() {
 
    if(opengl_forward_compat_ > 0) {
       DEBUG_M("Setting OpenGL forward Compatiblity profile");
-      glfwOpenWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+      glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
    }
 
    if(use_core_profile_) {
       DEBUG_M("Setting OpenGL core profile");
-      glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+      glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
    }
 
    if(opengl_major_ >= 0) {
       DEBUG_M("Setting OpenGL major version to %s", opengl_major_);
-      glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, opengl_major_);
+      glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, opengl_major_);
    }
 
    if(opengl_minor_ >= 0) {
       DEBUG_M("Setting OpenGL minor version to %s", opengl_minor_);
-      glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, opengl_minor_);
+      glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, opengl_minor_);
    }
 
    if(opengl_debug_) {
       DEBUG_M("Setting OpenGL debug context...");
-      glfwOpenWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+      glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
    }
 
-   if(!glfwOpenWindow(width_, height_, 0, 0, 0, 0, 0, 0, GLFW_WINDOW)) {
+   window_id = glfwCreateWindow(width_, height_, "GLFW Application", NULL, NULL);
+   if(!window_id) {
       ERROR("Could now open GLFW window.");
       glfwTerminate();
       return;
    }
 
-   glfwSetWindowTitle("GLFW Application");
    glfwSwapInterval(1);
 }
 
 void GLFWApplication::setTitle(const std::string& title) {
-   glfwSetWindowTitle(title.c_str());
+   glfwSetWindowTitle(window_id, title.c_str());
 }
 
 void GLFWApplication::update_() {
@@ -123,7 +124,7 @@ void GLFWApplication::render_() {
    }
 
    render_function_();
-   glfwSwapBuffers();
+   glfwSwapBuffers(window_id);
 }
 
 void GLFWApplication::setResizeFunction(std::function<void(int, int)> resize_function) {
