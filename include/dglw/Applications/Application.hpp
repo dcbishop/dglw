@@ -112,7 +112,7 @@ inline void Application::initialize() {
          //glewExperimental = true;
          GLenum err = glewInit();
          if(err != GLEW_OK) {
-            ERROR("Failed to initialize GLEW!");
+            ERROR("Failed to initialize GLEW! '%s'", glewGetErrorString(err));
          }
          LOG("GLEW Version: %s", glewGetString(GLEW_VERSION));
       }
