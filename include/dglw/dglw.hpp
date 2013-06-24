@@ -11,8 +11,15 @@
 #include "OpenGL/Texture.hpp"
 #include "OpenGL/VertexArray.hpp"
 #include "Applications/Application.hpp"
+
+#ifdef DGLW_USE_GLFW
 #include "Applications/GLFWApplication.hpp"
+#endif
+
+#ifdef DGLW_USE_QT
 #include "Applications/QTApplication.hpp"
+#endif
+
 #include "Renderable/Cube.hpp"
 #include "Renderable/TextureQuad.hpp"
 #include "Support/ResourceManager.hpp"
