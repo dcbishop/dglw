@@ -11,3 +11,5 @@ sudo cmake .
 sudo make
 sudo cp *.a /usr/lib
 
+NOTE: No tests are currently implmented...
+
