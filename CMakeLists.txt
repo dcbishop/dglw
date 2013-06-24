@@ -97,6 +97,7 @@ endif()
 # alternative is to manually keep a list of *all* source files =/
 file(GLOB_RECURSE SOURCES ${SOURCES_DIRECTORY}/*.cpp)
 file(GLOB_RECURSE HEADERS ${HEADERS_DIRECTORY}/*.h*)
+file(GLOB_RECURSE HEADERS_SRC ${SOURCES_DIRECTORY}/*.h*)
 
 include_directories("${HEADERS_DIRECTORY}/dglw/")
 include_directories("${SOURCES_DIRECTORY}/")
@@ -258,6 +259,13 @@ foreach(FILE ${HEADERS})
    file(RELATIVE_PATH REL_FILE ${HEADERS_DIRECTORY}/ ${FILE})
    get_filename_component(REL_PATH ${REL_FILE} PATH)
    install(FILES ${HEADERS_DIRECTORY}/${REL_FILE} DESTINATION ${INSTALL_INCLUDE_DIR}/${REL_PATH} COMPONENT dev)
+endforeach()
+
+# Also have to process GLWidget.hpp (in src due to automoc not finding it elsewhere)...
+foreach(FILE ${HEADERS_SRC})
+   file(RELATIVE_PATH REL_FILE ${SOURCES_DIRECTORY}/ ${FILE})
+   get_filename_component(REL_PATH ${REL_FILE} PATH)
+   install(FILES ${SOURCES_DIRECTORY}/${REL_FILE} DESTINATION ${INSTALL_INCLUDE_DIR}/${LOWER_NAME}/${REL_PATH} COMPONENT dev)
 endforeach()
 
 # Install the <Project>Config.cmake file
