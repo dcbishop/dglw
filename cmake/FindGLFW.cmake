@@ -12,7 +12,7 @@
 
 
 # TODO parse pkg-config output
-FIND_PATH(GLFW_INCLUDE_DIR GL/glfw.h
+FIND_PATH(GLFW_INCLUDE_DIR GLFW/glfw3.h
     $ENV{GLFWDIR}/include
     ~/Library/Frameworks/GLFW.framework/Headers
     /Library/Frameworks/GLFW.framework.Headers # Tiger

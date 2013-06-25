@@ -235,6 +235,8 @@ add_library(${LIB_NAME} ${SOURCES})
 
 if(HAVE_GLFW)
    list(APPEND COMMON_DEFS "USE_GLFW")
+   list(APPEND COMMON_LIBS ${GLFW_LIBRARIES})
+   include_directories(${GLFW_INCLUDE_DIR})
 endif()
 
 if(HAVE_QT)
