@@ -25,8 +25,8 @@ string(TOLOWER "${PROJECT_NAME}-demo" DEMO_PROJECT_NAME)
 ######################
 
 # Add dglw libs
-find_package(dglw REQUIRED)
-include_directories(${DGLW_INCLUDE_DIRS})
+include_directories(${HEADERS_DIRECTORY})
+list(APPEND COMMON_LIBS ${LIB_NAME})
 
 # GLEW
 find_package(GLEW REQUIRED)
