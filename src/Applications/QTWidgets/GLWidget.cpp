@@ -23,18 +23,11 @@ void GLWidget::initializeGL() {
    initialize_function();
 }
 
-void GLWidget::resizeEvent(QResizeEvent* event) {
-   DEBUG_M("Resize event...");
-   int width = event->size().width();
-   int height = event->size().height();
-
-   if(resize_function) {
-      resize_function(width, height);
-   }
-}
-
 void GLWidget::resizeGL(int w, int h) {
-   DEBUG_M("ResizeGL event...");
+   DEBUG_M("ResizeGL event... %dx%d", w, h);
+   if(resize_function) {
+      resize_function(w, h);
+   }
 }
 
 void GLWidget::paintGL() {
