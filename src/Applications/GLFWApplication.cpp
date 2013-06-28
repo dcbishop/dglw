@@ -41,9 +41,10 @@ void GLFWApplication::run() {
 
    glfwSetWindowSizeCallback(window_id, &resize_);
 
-   while(running) {
+   while(!glfwWindowShouldClose(window_id)) {
       update_();
       render_();
+      glfwPollEvents();
    }
    glfwTerminate();
 }
