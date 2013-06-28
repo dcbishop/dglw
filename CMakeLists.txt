@@ -96,7 +96,7 @@ file(GLOB_RECURSE SOURCES ${SOURCES_DIRECTORY}/*.cpp)
 file(GLOB_RECURSE HEADERS ${HEADERS_DIRECTORY}/*.h*)
 file(GLOB_RECURSE HEADERS_SRC ${SOURCES_DIRECTORY}/*.h*)
 
-include_directories("${HEADERS_DIRECTORY}/dglw/")
+include_directories("${HEADERS_DIRECTORY}/${LOWER_NAME}/")
 include_directories("${SOURCES_DIRECTORY}/")
 
 # CMake modules
