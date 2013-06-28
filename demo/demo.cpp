@@ -21,7 +21,11 @@ void render() {
 }
 
 void loadExt() {
-   // [TODO]: Load glew or something in here...
+    // [TODO]: Load glew or something in here...
+}
+
+void resize(int width, int height) {
+    glViewport(0, 0, width, height);
 }
 
 int main(int argc, char* argv[]) {
@@ -36,9 +40,10 @@ int main(int argc, char* argv[]) {
     auto rfunc = std::bind(&render);
     app.setRenderFunction(rfunc);
     app.setExtensionInitFunction(std::bind(&loadExt));
+    app.setResizeFunction(std::bind(&resize, std::placeholders::_1, std::placeholders::_2));
 
     app.setTitle("dglw demo!");
     app.setSize(800, 600);
-    
+
     app.run();
 }
