@@ -1,6 +1,16 @@
 #include <iostream>
 #include <glm/glm.hpp>
 
+#ifdef USE_GLFW
+#define DGLW_USE_GLFW
+#include <dglw/Applications/GLFWApplication.hpp>
+#endif
+
+#ifdef USE_QT
+#define DGLW_USE_QT
+#include <dglw/Applications/QTApplication.hpp>
+#endif
+
 #include <dglw/dglw.hpp>
 using namespace dglw;
 
