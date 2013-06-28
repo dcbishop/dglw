@@ -16,9 +16,6 @@
 # with people needing snippits of code for their CMake stuff.                  #
 ################################################################################
 
-# [TODO]: Demo currently builds using systemwide installed libraries, making a 
-#         compile without already having the current version installed fail.
-
 cmake_minimum_required(VERSION 2.8)
 
 project(dglw)
@@ -31,7 +28,7 @@ message("Project ${PROJECT_NAME}...")
 option( C++11           "C++11"         ON  )
 option( Profile         "Profile"       OFF )
 #option( Boost           "Boost"         ON  )
-option( Demo            "Demo"          OFF )
+option( Demo            "Demo"          ON  )
 option( Debug           "Debug"         OFF )
 option( Testing         "Testing"       ON  )
 option( USE_GLFW        "USE_GLFW"      ON  )
