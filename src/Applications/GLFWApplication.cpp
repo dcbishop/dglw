@@ -39,8 +39,6 @@ void GLFWApplication::run() {
    init_list_.addInitializeFunction(std::bind(&dglw::GLFWApplication::initialize_, this)); //Initialize GLFW
    Application::initialize();
 
-   glfwSetWindowSizeCallback(window_id, &resize_);
-
    while(!glfwWindowShouldClose(window_id)) {
       update_();
       render_();
@@ -88,6 +86,7 @@ void GLFWApplication::initialize_() {
       glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
    }
 
+   // Create the window
    window_id = glfwCreateWindow(width_, height_, "GLFW Application", NULL, NULL);
    if(!window_id) {
       ERROR("Could now open GLFW window.");
@@ -95,6 +94,8 @@ void GLFWApplication::initialize_() {
       return;
    }
    glfwMakeContextCurrent(window_id);
+
+   glfwSetFramebufferSizeCallback(window_id, &GLFWApplication::resize_);
 
    glfwSwapInterval(1);
 }
