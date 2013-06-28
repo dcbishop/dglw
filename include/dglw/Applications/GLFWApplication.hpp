@@ -19,6 +19,7 @@ class GLFWApplication : public Application {
 
    private:
       static void resize_(GLFWwindow* window, int width, int height);
+      static void error_(int err, const char* desc);
       void initialize_();
       void update_();
       void render_();

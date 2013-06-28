@@ -56,6 +56,8 @@ void GLFWApplication::initialize_() {
       return;
    }
 
+   glfwSetErrorCallback(&GLFWApplication::error_);
+
    int major, minor, revision;
    glfwGetVersion(&major, &minor, &revision);
    LOG("GLFW version %d.%d.%d", major, minor, revision);
@@ -131,5 +133,9 @@ void GLFWApplication::render_() {
 void GLFWApplication::setResizeFunction(std::function<void(int, int)> resize_function) {
    static_resize_function_ = resize_function;
    Application::setResizeFunction(resize_function);
+}
+
+void GLFWApplication::error_(int err, const char* desc) {
+   ERROR("GLFW Error #%d: '%s'", err, desc);
 }
 #endif /* USE_GLFW */
