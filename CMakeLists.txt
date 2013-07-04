@@ -30,6 +30,7 @@ option( Profile         "Profile"       OFF )
 #option( Boost           "Boost"         ON  )
 option( Demo            "Demo"          ON  )
 option( Debug           "Debug"         OFF )
+option( Coverage        "Coverage"      OFF )
 option( Testing         "Testing"       ON  )
 option( USE_GLFW        "USE_GLFW"      ON  )
 option( USE_QT          "USE_QT"        ON  )
@@ -52,7 +53,7 @@ string(TOUPPER ${PROJECT_NAME} UPPER_NAME)
 set(LIB_NAME ${LOWER_NAME})
 
 # Add custom debug build compiler flags here...
-#list(APPEND CMAKE_CXX_FLAGS_DEBUG "-O3")
+#set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O3")
 
 # Detect clang++ compiler
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -86,6 +87,10 @@ if(Debug)
    add_definitions(-D_DEBUG)
 endif()
 
+if(Coverage)
+   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -O0")
+   link_libraries(gcov)
+endif()
 
 #############################
 #  Find the stuff to build  #
@@ -129,15 +134,15 @@ get_git_head_revision(GIT_REFSPEC GIT_SHA1)
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_CLANGXX_)
    if(C++11)
       message(STATUS "Enabling C++11 support...")
-      list(APPEND CMAKE_CXX_FLAGS "-std=c++11")
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
       add_definitions(-DUSE_CPP11_)
    endif()
 
-   list(APPEND CMAKE_CXX_FLAGS_RELEASE "-O3 -Werror") #-Weffc++
+   set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -Werror") #-Weffc++
    
    if(Profile)
       message(STATUS "Profiling: ON...")
-      list(APPEND CMAKE_CXX_FLAGS "-pg")
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")
    endif()
 endif()
 
