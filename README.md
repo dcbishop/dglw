@@ -6,7 +6,7 @@ Testing
 -------
 The easy way to do testing with gtest under Ubuntu:
 
-    sudo apt-get install gtest
+    sudo apt-get install libgtest-dev
     cd /usr/src/gtest
     sudo cmake .
     sudo make
