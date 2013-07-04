@@ -278,5 +278,5 @@ install(TARGETS ${LOWER_NAME} ARCHIVE DESTINATION ${INSTALL_ARCHIVE_DIR}/${LOWER
 #  Testing  #
 #############
 if(Testing)
-   #add_subdirectory(tests)
+   add_subdirectory(tests)
 endif()
