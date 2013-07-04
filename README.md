@@ -5,11 +5,11 @@ Dave's GL Wrapper is a C++ OpenGL Object Orientated wrapping library. It's desig
 Testing
 -------
 The easy way to do testing with gtest under Ubuntu:
-sudo apt-get install gtest
-cd /usr/src/gtest
-sudo cmake .
-sudo make
-sudo cp *.a /usr/lib
+    sudo apt-get install gtest
+    cd /usr/src/gtest
+    sudo cmake .
+    sudo make
+    sudo cp *.a /usr/lib`
 
-NOTE: No tests are currently implmented...
+NOTE: No tests are currently implmented I'm just laying the framework...
 
