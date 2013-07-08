@@ -3,6 +3,14 @@
 #include <dglw.hpp>
 #include <Applications/Events.hpp>
 
+#ifdef USE_QT
+#include <Applications/QTApplication.hpp>
+#endif
+
+#ifdef USE_GLFW
+#include <Applications/GLFWApplication.hpp>
+#endif
+
 using namespace dglw;
 
 TEST(Sanity, Basic_Sanity_Check) {
@@ -36,3 +44,30 @@ TEST(Events, MouseCoord) {
    ASSERT_TRUE(mc1 <= mc2);
    ASSERT_TRUE(mc1 >= mc2);
 }
+
+#ifdef USE_QT
+TEST(Applications, QTApplication) {
+   int argc = 0;
+   char** argv = NULL;
+
+   QTApplication qapp;
+   qapp.setSize(200,100);
+   EXPECT_EQ(qapp.getWidth(), 200);
+   EXPECT_EQ(qapp.getHeight(), 100);
+
+   const std::string title {"Test Title"};
+   qapp.setTitle(title);
+}
+#endif /* USE_QT */
+
+#ifdef USE_GLFW
+TEST(Application, GLFWApplication) {
+   GLFWApplication gapp;
+   gapp.setSize(200, 100);
+   EXPECT_EQ(gapp.getWidth(), 200);
+   EXPECT_EQ(gapp.getHeight(), 100);
+
+   const std::string title {"Test Title"};
+   gapp.setTitle(title);
+}
+#endif /* USE_GLFW */
