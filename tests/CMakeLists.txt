@@ -62,7 +62,6 @@ endif()
 
 # Register the package with CMakes built in testing system ctest
 enable_testing()
-list(REMOVE_ITEM SOURCES "${MAIN_SOURCE}")
 add_executable(${PROJECT_TEST_NAME} ${CMAKE_SOURCE_DIR}/tests/unittest.cpp ${SOURCES})
 target_link_libraries(${PROJECT_TEST_NAME} ${COMMON_LIBS})
 add_test(${PROJECT_TEST_NAME}, ${PROJECT_TEST_NAME})
