@@ -27,6 +27,8 @@ string(TOLOWER ${PROJECT_NAME}_unittest PROJECT_TEST_NAME)
 #   list(APPEND COMMON_LIBS "${GTEST_BOTH_LIBRARIES}")
 #endif()
 
+list(APPEND COMMON_LIBS ${LIB_NAME})
+
 # Hack to build systemwide gtest, might fail on non-Ubuntu.
 # [TODO]: Look at including it in extern.
 #if(!GTEST_FOUND)
@@ -63,5 +65,8 @@ endif()
 # Register the package with CMakes built in testing system ctest
 enable_testing()
 add_executable(${PROJECT_TEST_NAME} ${CMAKE_SOURCE_DIR}/tests/unittest.cpp ${SOURCES})
+if(HAVE_QT)
+   qt5_use_modules(${PROJECT_TEST_NAME} Core Widgets Gui OpenGL)
+endif()
 target_link_libraries(${PROJECT_TEST_NAME} ${COMMON_LIBS})
 add_test(${PROJECT_TEST_NAME}, ${PROJECT_TEST_NAME})
