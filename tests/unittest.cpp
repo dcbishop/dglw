@@ -31,18 +31,57 @@ TEST(Events, MouseButton) {
    ASSERT_TRUE(mb1 != mb2);
 }
 
-TEST(Events, MouseCoord) {
-   MouseCoord mc1 {1234, 5678};
-   ASSERT_EQ(mc1.getX(), 1234);
-   ASSERT_EQ(mc1.getY(), 5678);
-   MouseCoord mc2 {1234, 5678};
-   ASSERT_TRUE(mc1 == mc2);
-   ASSERT_FALSE(mc1 != mc2);
-   MouseCoord mc3 {10000, 10000};
-   ASSERT_TRUE(mc1 < mc3);
-   ASSERT_FALSE(mc1 > mc3);
-   ASSERT_TRUE(mc1 <= mc2);
-   ASSERT_TRUE(mc1 >= mc2);
+class MouseCoordTest : public ::testing::Test {
+   protected:
+      MouseCoord mc0 {1, 1};
+      MouseCoord mc1 {100, 200};
+      MouseCoord mc2 {100, 200};
+      MouseCoord mc3 {640, 480};
+      MouseCoord mc4 {100, 480};
+      MouseCoord mc5 {100, 1};
+      MouseCoord mc6 {1, 480};
+      MouseCoord mc7 {640, 1};
+};
+
+TEST_F(MouseCoordTest, MouseCoord_Construction) {
+   ASSERT_EQ(mc1.getX(), 100);
+   ASSERT_EQ(mc1.getY(), 200);
+}
+
+TEST_F(MouseCoordTest, MouseCoord_Equals) {
+   EXPECT_TRUE(mc1 == mc2);
+   EXPECT_FALSE(mc1 == mc3);
+   EXPECT_FALSE(mc1 == mc4);
+}
+
+TEST_F(MouseCoordTest, MouseCoord_NotEquals) {
+   EXPECT_FALSE(mc1 != mc2);
+   EXPECT_TRUE(mc1 != mc3);
+   EXPECT_TRUE(mc1 != mc4);
+}
+
+TEST_F(MouseCoordTest, MouseCoord_LessThan) {
+   EXPECT_TRUE(mc1 < mc3);
+   EXPECT_FALSE(mc1 < mc4);
+   EXPECT_FALSE(mc6 < mc2);
+}
+
+TEST_F(MouseCoordTest, MouseCoord_GreatorThan) {
+   EXPECT_TRUE(mc1 > mc0);
+   EXPECT_FALSE(mc1 > mc3);
+   EXPECT_FALSE(mc7 > mc2);
+}
+
+TEST_F(MouseCoordTest, MouseCoord_LessThanOrEquals) {
+   EXPECT_TRUE(mc1 <= mc2);
+   EXPECT_FALSE(mc1 <= mc0);
+   EXPECT_FALSE(mc4 <= mc2);
+}
+
+TEST_F(MouseCoordTest, MouseCoord_GreatorThanOrEquals) {
+   EXPECT_TRUE(mc1 >= mc2);
+   EXPECT_FALSE(mc1 >= mc3);
+   EXPECT_FALSE(mc5 >= mc4);
 }
 
 #ifdef USE_QT
