@@ -43,8 +43,10 @@ option( USE_OPENGL      "USE_OPENGL"    ON  )
 ###########################
 set(SOURCES_SUBDIR src)
 set(HEADERS_SUBDIR include)
+set(TESTS_SUBDIR tests)
 set(SOURCES_DIRECTORY ${CMAKE_SOURCE_DIR}/${SOURCES_SUBDIR})
 set(HEADERS_DIRECTORY ${CMAKE_SOURCE_DIR}/${HEADERS_SUBDIR})
+set(TESTS_DIRECTORY ${CMAKE_SOURCE_DIR}/${TESTS_SUBDIR})
 set(CONFILE_FILENAME "Globals.hpp")
 set(CONFILE_SUBDIR "${HEADERS_SUBDIR}/Main")
 set(CONFILE_FILE "${PROJECT_SOURCE_DIR}/${CONFILE_SUBDIR}/${CONFILE_FILENAME}.in")
@@ -284,5 +286,5 @@ install(TARGETS ${LOWER_NAME} ARCHIVE DESTINATION ${INSTALL_ARCHIVE_DIR}/${LOWER
 #  Testing  #
 #############
 if(Testing)
-   add_subdirectory(tests)
+   add_subdirectory(${TESTS_SUBDIR})
 endif()
