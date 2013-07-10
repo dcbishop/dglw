@@ -126,6 +126,7 @@ class MouseCoord{
       bool operator<=(const MouseCoord& rhs) const {
          return (this->getX() <= rhs.getX()) && (this->getY() <= rhs.getY());
       }
+
    private:
       double xpos;
       double ypos;
